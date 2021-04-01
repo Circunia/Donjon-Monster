@@ -4,15 +4,16 @@
 class Sort:
 
 
-    def __init__(self, nom, degats, type, zone, projection, cout, description):
-      """ Type : self, str, int, str, ?, int, int, str -> void
+    def __init__(self, nom, degats, type, zoneh, zonel projection, cout, description):
+      """ Type : self, str, int, str, list, int, int, str -> void
           Préconditions : None
           Rôle : Initialise les attributs de la classe Sort. """
 
       self.nom = nom #nom donné au sort
       self.degats = degats # nombre de pv retirés par le sort
       self.type = type # attaque, soin, défense
-      self.zone = zone # définit la zone sur laquelle le sort peut agir
+      self.zoneh = zone # définit le nombre de cases en hauteur que le sort peut utiliser
+      self.zonel = zone # définit le nombre de cases en longueur que le sort peut utiliser
       self.proj = projection # distance entre le joueur et la zone
       self.cout = cout # nombre de pa que nécessite le sort
       self.desc = description # description du sort
@@ -21,7 +22,7 @@ class Sort:
 #adv = adversaire
 
      def action_sort(self, perso, adv):
-         """ self, Personnage, Personnage -> void 
+         """ self, Personnage, Personnage -> void
              Préconditions : self.pv != 0
              Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
 
@@ -37,6 +38,19 @@ class Sort:
         #perte de PA
         perso.pa = perso.pa - self.cout
 
+    def zone_action(self, perso):
+        """ self, Personnage -> list[t-uplet]
+            Préconditions : None
+            Rôle : Retourne une liste correspondant à la zone d'action du sort."""
+        list_zone = []
+        x = perso.pstn[0] #coordonnées du personnage (position de départ)
+        y = perso.ptsn[1] #coordonnées du personnage (possition de départ)
+
+        for hauteur in range(self.zoneh):
+            self.list_zone.append( (x+25,y) )
+            for longueur in range(self.zonel):
+                self.list_zone.append( (x, y+25) )
+        return list_zone
 
 #-----------Actions des sorts------------#
 
@@ -81,16 +95,20 @@ class Sort:
             perso.pv = perso.pv + 200
 
 #-----------Création des sorts---------#
-#def __init__(self, nom, degats, type, zone, projection, cout, description):
+#def __init__(self, nom, degats, type, zoneh, zonel, projection, cout, description):
 
 #-----Attaque-----#
-explosion = Sort("Explosion", 50, "attaque", ?, 2, 3, "Fais exploser une bombe infligeant des degats de zone.")
-fleches_empoisonnees = Sort("Flèches empoisonnées", 30, "attaque", ?, 1, "Envoie 3 flèches empoisonnées sur son adversaire")
+explosion = Sort("Explosion", 50, "attaque", 3, 3, 2, 3, "Fais exploser une bombe infligeant des degats de zone.")
+fleches_empoisonnees = Sort("Flèches empoisonnées", 30, "attaque", 0, 3, 1, "Envoie 3 flèches empoisonnées sur son adversaire")
 
 #-----Defense-----#
-augmentation = Sort("Augmentation", None, "defense", ?, 0, 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
-eclair = Sort("Eclair", None, "defense", ?, 5, 2, "Envoie un éclair qui va restraindre son adversaire en lui enlevant des pd pour un tour.")
+augmentation = Sort("Augmentation", None, "defense", 0, 0, 0, 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
+eclair = Sort("Eclair", None, "defense", 0, 0, 5, 2, "Envoie un éclair qui va restraindre son adversaire en lui enlevant des pd pour un tour.")
 
 #-----Soin--------#
-benediction = Sort("Bénédiction", None, "soin", ?, 0, 3, "Bénis le joueur en lui régénerant 30% de son nombre de point de vie total. ")
-illumination = Sort("Illumination", None, "Soin", ?, 0, 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
+benediction = Sort("Bénédiction", None, "soin", 0, 0, 0, 3, "Bénis le joueur en lui régénerant 30% de son nombre de point de vie total. ")
+illumination = Sort("Illumination", None, "Soin", 0, 0, 0, 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
+
+
+
+#------------------TEST-------------------#
