@@ -14,14 +14,15 @@ class Sort:
       self.type = type # attaque, soin, défense
       self.zone = zone # définit la zone sur laquelle le sort peut agir
       self.proj = projection # distance entre le joueur et la zone
+      self.cout = cout # nombre de pa que nécessite le sort
       self.desc = description # description du sort
 
 #perso = joueur
 #adv = adversaire
 
      def action_sort(self, perso, adv):
-         """ self, Personnage, Personnage ->
-             Préconditions : self.pv != 0 and
+         """ self, Personnage, Personnage -> void 
+             Préconditions : self.pv != 0
              Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
 
         if self.type == attaque:
@@ -33,6 +34,8 @@ class Sort:
                 defense_action(self, adv)
         else:
             soin_action(self, perso)
+        #perte de PA
+        perso.pa = perso.pa - self.cout
 
 
 #-----------Actions des sorts------------#
@@ -71,6 +74,7 @@ class Sort:
         """ Sort, Personnage -> void
             Préconditions : perso.pv != 0
             Rôle : Augmente le nombre de point de vie du joueur. """
+
         if self.nom == "Bénédiction":
             perso.pv = perso.pv + perso.pv_t*0.2
         if self.nom == "Illumination":
