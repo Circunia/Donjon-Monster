@@ -54,14 +54,13 @@ class Personnage :
                                         zone_p.append(case2)
             return zone_p #retourne une liste de cases (avec leurs coordonnées) sur lesquelles le joueur peut se déplacer
                           # en fonction de ses pd
-            while self.pd > 0 and  :
+            while self.pd > 0 and #appel à une fonction qui permet à l'utilisatuer de cliquer sur un bouton si il a fini son action :
                 self.pstn =   # appel à une fonction qui retourne les coordoonnées de la case sur laquelle l'utilisateur a cliqué
                 self.pd = self.pd - 1
             
-                    
-                                    
-                                              
+                                      
         elif self.cat == "Monstre1":
+            
             
             
         elif self.cat == "Monstre2":
