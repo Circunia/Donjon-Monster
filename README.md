@@ -60,25 +60,32 @@ personnage → void
 -> monstre3 
 -> Boss 
 (les monstres auront des stratégies d’action différentes selon leur catégorie, par exemple un monstre de catégorie 2 pourra se voir attribuer un sort d’attaque et un sort de soin, et devra utiliser son sort de soin si son nombre de pv est inférieur à 50 sinon il attaquera) 
-Classe Sort : 
+
+    Classe Sort : 
 Attributs : 
 → nom (str) 
 → degats (int) : nombre de pv retirés par le sort 
 → type (str) : attaque, soin, défense 
-→ zone (?) : définit la zone sur laquelle le sort peut agir 
+→ zoneh (list) : définit la zone sur laquelle le sort peut agir 
+→ zonel (list) : définit la zone sur laquelle le sort peut agir 
 → projection (int) : distance entre le joueur et la zone 
+-> cout (int) : nombre de pa utilisé par le sort
 -> description (str) : description du sort 
-constructeur 
-degats(sort, adversaire): 
-sort (Sort), adversaire(Personnage) -> void 
-Inflige des dégâts à l’adversaire en lui retirant des points de vie en fonction de l’attribut degats 
-affichage(sort, adversaire): 
-sort (Sort), adversaire(Personnage) -> void 
-Rend visible les dégâts à l’aide d’une animation : change l’image du monstre touché par une autre où il est attaqué, cette fonction est utilisée lorsque le sort en paramètre n’est pas un
-sort de soin, lorsque le sort a des effets directs sur l’adversaire du personnage en paramètre. 
-perte_pa(sort, perso): 
-sort (Sort) perso (Personnage)-> void 
-Prend en paramètre un sort et enlève les pa nécessaires à l’utilisation de ce sort. 
+
+constructeur
+
+action_sort(self, adv):
+""" self, Personnage, Personnage -> void
+             Préconditions : self.pv != 0
+             Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
+
+zone_action(self, perso, zoneh, zonel):
+""" self, Personnage -> list
+            Préconditions : None
+            Rôle : Retourne une list correspondant à la zone d'action du sort."""
+  
+
+
 Variables Globales : 
 liste_monstres1 : list(Personnage) : liste des monstres du niveau 1 
 liste_monstres2 : list(Personnage) : liste des monstres du niveau 2 
@@ -108,6 +115,12 @@ Rôle : Créer une fenêtre avec la description de chaque sort si l’utilisateu
 recompense(): 
 Aucun paramètre 
 Rôle : Le joueur choisit entre deux cadeaux avant de passer au niveau suivant. Modification de la fenêtre graphique, le joueur clique sur la récompense souhaitée. Modification des attributs du joueur en conséquence. 
+
+affichage_sort(sort, perso):
+sort (Sort), adversaire(Personnage) -> void 
+Rend visible les dégâts à l’aide d’une animation : change l’image du monstre touché par une autre où il est attaqué, cette fonction est utilisée lorsque le sort en paramètre n’est pas un
+sort de soin, lorsque le sort a des effets directs sur l’adversaire du personnage en paramètre. 
+
 
 Grande étapes du programme (partie principale) : 
 - Initialisation des variables dans les classes 
