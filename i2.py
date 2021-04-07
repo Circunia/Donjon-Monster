@@ -46,8 +46,11 @@ try:
     for i in range(0,7):
         for j in range(0,7):
             pygame.draw.rect(fenetre,(0,0,255),(dec_abs+25+50*i,dec_ord+25+50*j,25,25))    
-             
     pygame.draw.rect(fenetre,(255,255,255),(50,450,350,150))
+    perso = pygame.image.load("perso.jpeg").convert_alpha()
+    perso_abs = 0
+    perso_ord = 0
+    fenetre.blit(perso, (perso_abs, perso_ord))
     pygame.display.flip()
     
     # boucle permettant de garder la fenêtre ouverte jusqu'à ce qu'on décide
@@ -56,7 +59,12 @@ try:
     while continuer:
         for event in pygame.event.get(): # on prend le premier événement de la pile
             if event.type==QUIT: # clic sur la croix "fermeture de fenetre"
-                continuer = False
+                continuer = True
+            if event.button == 1:	#Si clic gauche
+				#On change les coordonnées du perso
+				perso_x =event.pos 
+				perso_y = 
+                
 finally:
     pygame.quit()
     
