@@ -48,9 +48,8 @@ try:
             pygame.draw.rect(fenetre,(0,0,255),(dec_abs+25+50*i,dec_ord+25+50*j,25,25))    
     pygame.draw.rect(fenetre,(255,255,255),(50,450,350,150))
     perso = pygame.image.load("perso.jpeg").convert_alpha()
-    perso_abs = 0
-    perso_ord = 0
-    fenetre.blit(perso, (perso_abs, perso_ord))
+    perso_position=(0,0)
+    fenetre.blit(perso, (perso_position))
     pygame.display.flip()
     
     # boucle permettant de garder la fenêtre ouverte jusqu'à ce qu'on décide
@@ -62,8 +61,7 @@ try:
                 continuer = True
             if event.button == 1:	#Si clic gauche
 				#On change les coordonnées du perso
-				perso_x =event.pos 
-				perso_y = 
+				perso_position=deplacer() 
                 
 finally:
     pygame.quit()
