@@ -61,7 +61,7 @@ try:
                 continuer = True
             if event.button == 1:	#Si clic gauche
 				#On change les coordonnées du perso
-				perso_position=deplacer() 
+				perso_position=personnage.deplacer()
                 
 finally:
     pygame.quit()
