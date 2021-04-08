@@ -134,5 +134,5 @@ Fonctions optionnelles :
 
 Répartition du travail : 
 - Manon : Classe Personnage 
-- Lilas : Classe Sort 
+- Lilas : Classe Sort, Gestionnaire d'évenements
 - Regina : Partie Graphique
