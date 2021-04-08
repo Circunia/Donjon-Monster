@@ -72,19 +72,19 @@ Attributs :
 - cout (int) : nombre de pa utilisé par le sort
 - description (str) : description du sort 
 
-      Fonctions/Méthodes:
-constructeur
+Fonctions/Méthodes:
+        constructeur
 
-action_sort(self, adv):
-""" self, Personnage, Personnage -> void
-             Préconditions : self.pv != 0
-             Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
+        action_sort(self, adv):
+        """ self, Personnage, Personnage -> void
+                     Préconditions : self.pv != 0
+                     Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
 
-zone_action(self, perso, zoneh, zonel):
-""" self, Personnage -> list
-            Préconditions : None
-            Rôle : Retourne une list correspondant à la zone d'action du sort."""
-  
+        zone_action(self, perso, zoneh, zonel):
+        """ self, Personnage -> list
+                    Préconditions : None
+                    Rôle : Retourne une list correspondant à la zone d'action du sort."""
+
 
 
 Variables Globales : 
@@ -100,27 +100,38 @@ Barre1 : Barre de tâche (graphique) du niveau 1
 Barre2 : Barre de tâche (graphique) du niveau 2 
 Barre3 : Barre de tâche (graphique) du niveau 3 
 Fenêtre : fenêtre de l’interface Graphique 
+
+Interface Graphique : 
 Fonctions: 
+
 barre_user(): 
-- Modifier graphiquement la barre de tâches entre chaque tour pour afficher les changements nécessaires (pa, pv) 
-tour_par_tour(Joueur, liste_monstre): 
-Joueur(Personnage), liste_monstre(list) -> void 
-Teste les pv des personnages, tant que le joueur est en vie et qu’au moins un des monstres est en vie (pv > 0), fait jouer tous les personnages restants.
-Si le joueur perd tous ses pv ou qu’aucun des monstres n’est en vie, faire appel à la fonction victoire. 
-victoire(): 
-Victoire pour le joueur si tous les monstres ont perdu leurs points de vie, défaite si le joueur perd tous ses points de vie. 
-Rôle: lancer le niveau suivant en cas de victoire et proposer des récompenses (appel à la fonction récompense), proposer de recommencer le niveau actuel en cas de défaite. 
-description(liste_sorts): 
+Modifier graphiquement la barre de tâches entre chaque tour pour afficher les changements nécessaires (pa, pv) 
+
+description_sort(liste_sorts): 
 liste_sorts(list) -> void 
 Rôle : Créer une fenêtre avec la description de chaque sort si l’utilisateur clique sur le bouton destiné à l’afficher. 
-recompense(): 
-Aucun paramètre 
-Rôle : Le joueur choisit entre deux cadeaux avant de passer au niveau suivant. Modification de la fenêtre graphique, le joueur clique sur la récompense souhaitée. Modification des attributs du joueur en conséquence. 
 
 affichage_sort(sort, perso):
 sort (Sort), adversaire(Personnage) -> void 
-Rend visible les dégâts à l’aide d’une animation : change l’image du monstre touché par une autre où il est attaqué, cette fonction est utilisée lorsque le sort en paramètre n’est pas un
-sort de soin, lorsque le sort a des effets directs sur l’adversaire du personnage en paramètre. 
+Rend visible les dégâts à l’aide d’une animation : change l’image du monstre touché par une autre où il est attaqué, cette fonction est utilisée lorsque le sort en paramètre n’est pas un sort de soin, lorsque le sort a des effets directs sur l’adversaire du personnage en paramètre. 
+
+
+
+Gestionnaire d'evenements: 
+
+tour_par_tour(Joueur, liste_monstre): 
+
+
+victoire(): 
+Victoire pour le joueur si tous les monstres ont perdu leurs points de vie, défaite si le joueur perd tous ses points de vie. 
+Si le joueur perd tous ses pv ou ou si le joueur a encore des pv et qu’aucun des monstres n’est en vie
+Rôle: lancer le niveau suivant en cas de victoire et proposer des récompenses (appel à la fonction récompense), proposer de recommencer le niveau actuel en cas de défaite.
+Joueur(Personnage), liste_monstre(list) -> void 
+Teste les pv des personnages, tant que le joueur est en vie et qu’au moins un des monstres est en vie (pv > 0), est_mort() -> TRUE, fait jouer tous les personnages restants.
+
+recompense(): 
+Aucun paramètre 
+Rôle : Le joueur choisit entre deux cadeaux avant de passer au niveau suivant. Modification de la fenêtre graphique, le joueur clique sur la récompense souhaitée. Modification des attributs du joueur en conséquence. 
 
 
 Grande étapes du programme (partie principale) : 
