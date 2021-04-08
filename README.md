@@ -63,15 +63,16 @@ personnage → void
 
     Classe Sort : 
 Attributs : 
-→ nom (str) 
-→ degats (int) : nombre de pv retirés par le sort 
-→ type (str) : attaque, soin, défense 
-→ zoneh (list) : définit la zone sur laquelle le sort peut agir 
-→ zonel (list) : définit la zone sur laquelle le sort peut agir 
-→ projection (int) : distance entre le joueur et la zone 
--> cout (int) : nombre de pa utilisé par le sort
--> description (str) : description du sort 
+- nom (str) 
+- degats (int) : nombre de pv retirés par le sort 
+- type (str) : attaque, soin, défense 
+- zoneh (list) : définit la zone sur laquelle le sort peut agir 
+- zonel (list) : définit la zone sur laquelle le sort peut agir 
+- projection (int) : distance entre le joueur et la zone 
+- cout (int) : nombre de pa utilisé par le sort
+- description (str) : description du sort 
 
+      Fonctions/Méthodes:
 constructeur
 
 action_sort(self, adv):
