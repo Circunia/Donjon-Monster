@@ -22,7 +22,8 @@ from pygame.locals import * # importation des constantes de pygame dans l'espace
 
 pygame.init()  # lancement de pygame
 
-
+#titre de la fenetre
+titre_fenetre="Donjon Monster"
 # dimensions de la fenetre :
 largeur = 450 # largeur en pixels
 hauteur = 650 # hauteur en pixels
@@ -59,9 +60,7 @@ try:
         for event in pygame.event.get(): # on prend le premier événement de la pile
             if event.type==QUIT: # clic sur la croix "fermeture de fenetre"
                 continuer = True
-            if event.button == 1:	#Si clic gauche
-				#On change les coordonnées du perso
-				perso_position=personnage.deplacer()
+            
                 
 finally:
     pygame.quit()
