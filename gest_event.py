@@ -7,16 +7,22 @@ from random import *
 
 #--------Fonctions-------#
 
-def tour_par_tour(joueur,):
-    """ Personnage,    -> void
+def tour_par_tour(joueur):
+    """ Personnage -> void
         Préconditions : None
         Rôle : Appel chaque fonction du gestionnaire des tâches pour mettre à jour les évenements et fait jouer le personnage suivant. """
 
 
 
-    victoire(joueur, liste_adversaire)
-    if victoire:
+
+    statut_victoire = victoire(joueur, liste_adversaire) # True, False, "continue"
+    if statut_victoire == "continue" :
+        return
+    if victoire :
         recompense(joueur)
+    else :
+        #fonction qui propose au joueur de recommencer la salle
+
 
 def recompense(joueur):
     """ Personnage -> str, str
@@ -30,7 +36,7 @@ def recompense(joueur):
 
 
 
-#faire appel à une fonction input graphique qui renvoie la récompense choisi puis continuer et modifier les attributs du joueur. 
+#faire appel à une fonction input graphique qui renvoie la récompense choisi puis continuer et modifier les attributs du joueur.
 
 
     return recompense1 and recompense2
@@ -44,15 +50,15 @@ def recompense(joueur):
                sinon retourner FALSE. """
 
     nb_mort = 0
-    if est_mort(joueur):
+    if est_mort(joueur): # défaite
         return False
-    else:
+    else: # victoire
         for adversaire in liste_adversaire:
             if est_mort(adversaire):
                 nb_mort += 1
         if nb_mort == len(liste_adversaire):
             return True
-        return False
+        return "continue" # le joueur peut continuer de jouer mais tout les monstres ne sont pas morts.
 
 
 
