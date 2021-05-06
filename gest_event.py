@@ -61,7 +61,7 @@ def recompense(joueur):
         return "continue" # le joueur peut continuer de jouer mais tout les monstres ne sont pas morts.
 
 
-
+#retirer le monstre
 
 #----------------TEST-----------------#
 victoire(perso1, liste_adversaire)

@@ -24,6 +24,7 @@ class Sort:
              Préconditions : self.pv != 0
              Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
 
+        if condition_sort(): #True
         # choix du sort lancé
         if self.type == "attaque" :
             attaque_action(self, adv)
@@ -55,10 +56,34 @@ class Sort:
         return list_zone
     #définis seulement des zones rectangulaires ( à améliorer)
 
-x = perso.pstn[0]
-y = perso.pstn[1]
-zone_explosion = [(x+25, y), (x+50, y)]
-zone_explosion = [(perso.pstn[0]+25, perso.pstn[1]), (perso.pstn[0]+50, perso.pstn[1])]
+# x = perso.pstn[0]
+# y = perso.pstn[1]
+# zone_explosion = [(x+25, y), (x+50, y)]
+# zone_explosion = [(perso.pstn[0]+25, perso.pstn[1]), (perso.pstn[0]+50, perso.pstn[1])]
+
+# var = [(face),(left), (right),   (back)]
+zone_explosion = [(x, y-50), (x, y-75), (x, y-100), (x-25,y-50), (x-25,y-75), (x-25, y-100), (x+25,y-50), (x+25, y-75), (x+25, y-100)] # 1
+zone_fleches_empoisonnees = [(x, y-100), (x-25, y-100), (x+25, y-100), (x, y+100), (x-25, y+100), (x+25, y+100)] # 2
+zone_coup_de_couteau = [(x, y-25), (x-25,y), (x, y+25),(x+25,y)] # 3
+zone_augmentation = [(x,y)]
+zone_eclair = [()]
+zone_benediction
+zone_illumination
+
+
+
+def est_zone(perso, liste_monstres, zone):
+    """ Personnage, list[Personnage], Sort -> list
+        Préconditions : None
+        Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort, si oui  """
+
+    if perso.cat == "Joueur":
+        liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
+        for i in range(len(liste_monstres)):
+            if liste_monstres[i].pstn in zone:
+                liste_monstre_in_zone.append(liste_monstres[i])
+            return liste_monstre_in_zone
+
 
 
 #-----------Actions des sorts------------#
@@ -110,6 +135,9 @@ zone_explosion = [(perso.pstn[0]+25, perso.pstn[1]), (perso.pstn[0]+50, perso.ps
 explosion = Sort("Explosion", 50, "attaque", 3, 3, 2, 3, "Fais exploser une bombe infligeant des degats de zone.")
 fleches_empoisonnees = Sort("Flèches empoisonnées", 30, "attaque", 0, 3, 1, "Envoie 3 flèches empoisonnées sur son adversaire.")
 coup_de_couteau = Sort("Coup de couteau", 10, "attaque", 1,                     "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen." )
+coup_de_couteau1 =
+coup_de_couteau2 =
+
 
 #-----Defense-----#
 augmentation = Sort("Augmentation", None, "defense", 0, 0, 0, 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
@@ -117,7 +145,9 @@ eclair = Sort("Eclair", None, "defense", 0, 0, 5, 2, "Envoie un éclair qui va r
 
 #-----Soin--------#
 benediction = Sort("Bénédiction", None, "soin", 0, 0, 0, 3, "Bénis le joueur en lui régénerant 30% de son nombre de point de vie total. ")
-illumination = Sort("Illumination", None, "Soin", 0, 0, 0, 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
+illumination = Sort("Illumination", None, "soin", 0, 0, 0, 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
+illumination1 =
+illumination2 =
 
 
 
