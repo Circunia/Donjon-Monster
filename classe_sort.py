@@ -2,17 +2,15 @@
 
 class Sort:
 
-    def __init__(self, nom, degats, type_sort, zoneh, zonel, projection, cout, description):
-      """ Type : self, str, int, str, list, int, int, str -> void
+    def __init__(self, nom, degats, type_sort, zone, cout, description):
+      """ Type : self, str, int, str, list, int, str -> void
           Préconditions : None
           Rôle : Initialise les attributs de la classe Sort. """
 
       self.nom = nom #nom donné au sort
       self.degats = degats # nombre de pv retirés par le sort
       self.type = type_sort # attaque, soin, défense
-      self.zoneh = zone # définit le nombre de cases en hauteur que le sort peut utiliser
-      self.zonel = zone # définit le nombre de cases en longueur que le sort peut utiliser
-      self.proj = projection # distance entre le joueur et la zone
+      self.zone = zone # liste de coordonnées (x,y) d'action du sort
       self.cout = cout # nombre de pa que nécessite le sort
       self.desc = description # description du sort
 
@@ -39,51 +37,24 @@ class Sort:
         #perte de PA
         perso.pa = perso.pa - self.cout
 
-    def zone_action(self, perso):
-        """ self, Personnage -> list[t-uplet]
+    def
+
+
+
+    def est_zone(perso, liste_monstres, zone):
+        """ Personnage, list[Personnage], Sort -> list
             Préconditions : None
-            Rôle : Retourne une liste correspondant à la zone d'action du sort."""
-        list_zone = []
-        #x = perso.pstn[0] #coordonnées du personnage (position de départ)
-        #y = perso.ptsn[1] #coordonnées du personnage (possition de départ)
-        x = perso[0]
-        y = perso[1]
+            Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort et renvoit False si la liste de monstres est vide sinon la liste de coordonnées des monstres dans la zone. """
 
-        for hauteur in range(self.zoneh):
-            self.list_zone.append( (x+25,y) )
-            for longueur in range(self.zonel):
-                self.list_zone.append( (x, y+25) )
-        return list_zone
-    #définis seulement des zones rectangulaires ( à améliorer)
-
-# x = perso.pstn[0]
-# y = perso.pstn[1]
-# zone_explosion = [(x+25, y), (x+50, y)]
-# zone_explosion = [(perso.pstn[0]+25, perso.pstn[1]), (perso.pstn[0]+50, perso.pstn[1])]
-
-# var = [(face),(left), (right),   (back)]
-zone_explosion = [(x, y-50), (x, y-75), (x, y-100), (x-25,y-50), (x-25,y-75), (x-25, y-100), (x+25,y-50), (x+25, y-75), (x+25, y-100)] # 1
-zone_fleches_empoisonnees = [(x, y-100), (x-25, y-100), (x+25, y-100), (x, y+100), (x-25, y+100), (x+25, y+100)] # 2
-zone_coup_de_couteau = [(x, y-25), (x-25,y), (x, y+25),(x+25,y)] # 3
-zone_augmentation = [(x,y)]
-zone_eclair = [()]
-zone_benediction
-zone_illumination
-
-
-
-def est_zone(perso, liste_monstres, zone):
-    """ Personnage, list[Personnage], Sort -> list
-        Préconditions : None
-        Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort, si oui  """
-
-    if perso.cat == "Joueur":
-        liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
-        for i in range(len(liste_monstres)):
-            if liste_monstres[i].pstn in zone:
-                liste_monstre_in_zone.append(liste_monstres[i])
-            return liste_monstre_in_zone
-
+        if perso.cat == "Joueur":
+            liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
+            for i in range(len(liste_monstres)):
+                if liste_monstres[i].pstn in zone:
+                    liste_monstre_in_zone.append(liste_monstres[i])
+                    if liste_monstre_in_zone == []:
+                        return False
+                    else:
+                        return liste_monstre_in_zone
 
 
 #-----------Actions des sorts------------#
@@ -97,7 +68,6 @@ def est_zone(perso, liste_monstres, zone):
         adv.pv = adv.pv - self.degats
 
     #-----Defense-----#
-
     def augmentation_action(self, perso):
         """ Sort, Personnage -> void
             Préconditions : perso.pv != 0
@@ -126,31 +96,53 @@ def est_zone(perso, liste_monstres, zone):
         if self.nom == "Bénédiction":
             perso.pv = perso.pv + perso.pv_t*0.2
         if self.nom == "Illumination":
-            perso.pv = perso.pv + 200
+            perso.pv = perso.pv + self.degats #degats = pv rendu
 
 #-----------Création des sorts---------#
 #def __init__(self, nom, degats, type, 'zoneh, zonel, projection,' cout, description):
 
 #-----Attaque-----#
-explosion = Sort("Explosion", 50, "attaque", 3, 3, 2, 3, "Fais exploser une bombe infligeant des degats de zone.")
-fleches_empoisonnees = Sort("Flèches empoisonnées", 30, "attaque", 0, 3, 1, "Envoie 3 flèches empoisonnées sur son adversaire.")
-coup_de_couteau = Sort("Coup de couteau", 10, "attaque", 1,                     "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen." )
-coup_de_couteau1 =
-coup_de_couteau2 =
+explosion = Sort("Explosion", 130, "attaque", zone_explosion, 3, "Fais exploser une bombe infligeant des degats de zone.")
+fleches_empoisonnees = Sort("Flèches empoisonnées", 200, "attaque", zone_fleches_empoisonnees, 2, "Envoie 3 flèches empoisonnées sur son adversaire.")
+coup_de_couteau = Sort("Coup de couteau", 50, "attaque", zone_coup_de_couteau, 1, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen." )
+coup_de_couteau1 = Sort("Coup de couteau", 100, "attaque", zone_coup_de_couteau, 2, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen.")
+coup_de_couteau2 = Sort("Coup de couteau", 150, "attaque", zone_coup_de_couteau, 3, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen.")
 
 
 #-----Defense-----#
-augmentation = Sort("Augmentation", None, "defense", 0, 0, 0, 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
-eclair = Sort("Eclair", None, "defense", 0, 0, 5, 2, "Envoie un éclair qui va restraindre son adversaire en lui enlevant des pd pour un tour.")
+augmentation = Sort("Augmentation", None, "defense", zone_augmentation, 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
+eclair = Sort("Eclair", None, "defense", zone_eclair, 2, "Envoie un éclair qui va restraindre son adversaire en lui enlevant des pd pour un tour.")
 
 #-----Soin--------#
-benediction = Sort("Bénédiction", None, "soin", 0, 0, 0, 3, "Bénis le joueur en lui régénerant 30% de son nombre de point de vie total. ")
-illumination = Sort("Illumination", None, "soin", 0, 0, 0, 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
-illumination1 =
-illumination2 =
+benediction = Sort("Bénédiction", None, "soin", zone_benediction 5, "Bénis le joueur en lui régénerant 20% de son nombre de point de vie total. ")
+illumination = Sort("Illumination", 200, "soin", zone_illumination 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
+illumination1 = Sort("Illumination", 50, "soin", zone_illumination, 1, "Soigne le joueur de 50 pv en abatant son sceptre de lumière.")
+illumination2 = Sort("Illumination", 100, "soin", zone_illumination, 1, "Soigne le joueur de 100 pv en abatant son sceptre de lumière.")
+
+#--------------Coordonnées des sorts--------------#
+
+# var = [(face),(left), (right),   (back)]
+zone_explosion = [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180)] # 1
+zone_fleches_empoisonnees = [[(x, y-180), (x-45, y-180), (x+45, y-180)], [(x, y+180), (x-45, y+180), (x+45, y+180)]] # 2
+zone_coup_de_couteau = [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]] # 3
+zone_augmentation = [(x,y)] #
+zone_eclair = [[(x,y-180)], [(x-180, y)], [(x+180, y)], [(x,y+180)]]  #5
+zone_benediction = [(x,y)] # 6
+zone_illumination = [(x,y-45), (x-45, y-45), (x+45, y-45), (x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180),
+(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45),
+(x+90, y), (x+135, y), (x+180, y), (x+90,y+45), (x+135,y+45), (x+180, y+45), (x+90,y-45), (x+135, y-45), (x+180, y-45), (x-45,y), (x+45, y),
+(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45)] #7
+
+
+
+
+
+
+
 
 
 
 #------------------TEST-------------------#
 liste_coord = (25,50)
 zone_action(explosion, liste_coord)
+print(explosion)

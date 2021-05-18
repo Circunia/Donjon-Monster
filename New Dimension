@@ -3,10 +3,17 @@ from pygame.locals import *
 pygame.init()
 largeur = 1300
 hauteur = 700
+
+x = 320
+y = 320
+
+zone = [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]]
+
+
 try :
     fenetre = pygame.display.set_mode((largeur, hauteur))
     pygame.draw.rect(fenetre, (255,255,255), (0, 0, 1300, 700))
-    
+
     for i in range (7):
         for j in range (7):
             pygame.draw.rect(fenetre, (225,206,154), (50+90*i, 50+90*j, 45, 45))
@@ -14,21 +21,27 @@ try :
     for i in range (7):
         for j in range (7):
             pygame.draw.rect(fenetre, (225,206,154), (95+90*i, 95+90*j, 45, 45))
-    
+
     for i in range (7):
         for j in range (7):
             pygame.draw.rect(fenetre, (250,240,197), (95+90*i, 50+90*j, 45, 45))
-            
+
     for i in range (7):
         for j in range (7):
             pygame.draw.rect(fenetre, (250,240,197), (50+90*i, 95+90*j, 45, 45))
-    
+
+
+    for case in zone:
+        pygame.draw.rect(fenetre, (100,140,130), (case[0][0],case[0][1], 45, 45))
+    pygame.draw.rect(fenetre, (200,240,230), (x,y, 45, 45))
+
     pygame.display.flip()
     continuer = True
     while continuer :
         for event in pygame.event.get():
             if event.type == QUIT :
                 continuer = False
-                
+
 finally :
     pygame.quit()
+
