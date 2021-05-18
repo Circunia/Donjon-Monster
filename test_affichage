@@ -1,0 +1,152 @@
+def zone_possible(perso, list_m, list_o):
+        """self(Personnage), list, list -> list
+           Préconditions : le personnage pris en paramètre doit être en vie.
+           Rôle : Retourne la liste des cases sur lesquelles peut se déplacer le personnage"""
+        xj = perso[0]
+        yj = perso[1]
+        zone = []
+        case = 45
+        n =  3
+        for i in range (0, n):
+            for j in range (0, n):
+                case1 = (xj + (i * case), yj + (j * case))
+                case2 = (xj - (i * case), yj - (j * case))
+                case3 = (xj + (i * case), yj - (j * case))
+                case4 = (xj - (i * case), yj + (j * case))
+                compteur1 = 0
+                compteur2 = 0
+                compteur3 = 0
+                compteur4 = 0
+            
+                if case1[0] >= 50 and case1[0] < 680 and case1[1] >= 50 and case1[1] < 680 :
+                    for monstre in liste_m :
+                        if case1[0] == monstre[0] and case1[1] == monstre[1] :
+                            compteur1 += 1
+                    for obstacle in liste_o :
+                        if case1[0] == obstacle[0] and case1[1] == obstacle[1] :
+                            compteur1 += 1
+                    if compteur1 == 0 :
+                        zone.append(case1)
+                                    
+                if case2[0] >= 50 and case2[0] < 680 and case2[1] >= 50 and case2[1] <680 :
+                    for monstre in liste_m :
+                        if case2[0] == monstre[0] and case2[1] == monstre[1] :
+                            compteur2 += 1
+                    for obstacle in liste_o :
+                        if case2[0] == obstacle[0] and case2[1] == obstacle[1] :
+                            compteur2 += 1
+                    if compteur2 == 0 :
+                        zone.append(case2)
+                        
+                if case3[0] >= 50 and case3[0] < 680 and case3[1] >= 50 and case3[1] < 680 :
+                    for monstre in liste_m :
+                        if case3[0] == monstre[0] and case3[1] == monstre[1] :
+                            compteur3 += 1
+                    for obstacle in liste_o :
+                        if case3[0] == obstacle[0] and case3[1] == obstacle[1] :
+                            compteur3 += 1
+                    if compteur3 == 0 :
+                        zone.append(case3)
+                        
+                if case4[0] >= 50 and case4[0] < 680 and case4[1] >= 50 and case4[1] < 680 :
+                    for monstre in liste_m :
+                        if case4[0] == monstre[0] and case4[1] == monstre[1] :
+                            compteur4 += 1
+                    for obstacle in liste_o :
+                        if case4[0] == obstacle[0] and case4[1] == obstacle[1] :
+                            compteur4 += 1
+                    if compteur4 == 0 :
+                        zone.append(case4)
+            n = n - 1
+        zone_p = []
+        for coordonnees in zone :
+            if coordonnees not in zone_p :
+                zone_p.append(coordonnees)
+        return zone_p
+    
+perso = (140,320)
+liste_o = [(545,95), (230,545),(320,275)]
+liste_m = [(185,275),(455,590),(320,320),(455,320),(500,140),(500,545),(590,320),(545,95),(230,545),(320,275)]
+
+zone = zone_possible(perso, liste_o, liste_m)
+print(zone)
+
+import pygame
+from pygame.locals import *
+pygame.init()
+largeur = 1300
+hauteur = 700
+try :
+    fenetre = pygame.display.set_mode((largeur, hauteur))
+    pygame.draw.rect(fenetre, (255,255,255), (0, 0, 1300, 700))
+    
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (225,206,154), (50+90*i, 50+90*j, 45, 45))
+            n = str(50+90*i) +" , " + str (50+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (50+90*i, 50+90*j))
+
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (225,206,154), (95+90*i, 95+90*j, 45, 45))
+            n = str(95+90*i) +" , " + str (95+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (95+90*i, 95+90*j))
+            
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (250,240,197), (95+90*i, 50+90*j, 45, 45))
+            n = str(95+90*i) +" , " + str (50+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (95+90*i, 50+90*j+20))
+            
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (250,240,197), (50+90*i, 95+90*j, 45, 45))
+            n = str(50+90*i) +" , " + str (95+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (50+90*i, 95+90*j +20))
+    for case in zone :
+        pygame.draw.rect(fenetre, (49, 200, 170), (case[0], case[1], 45, 45))
+        
+    monstre2 = pygame.image.load("monstre2.png").convert_alpha()
+    fenetre.blit(monstre2,(perso[0], perso[1]))
+    
+    for monstre in liste_m :
+        monstre1 = pygame.image.load("monstre1.png").convert_alpha()
+        fenetre.blit(monstre1,(monstre[0],monstre[1]))
+        
+    for o in liste_o :
+        pygame.draw.rect(fenetre, (49, 140, 230), (o[0],o[1], 45, 45))
+    
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN :
+            
+            if event.pos == (50, 50, 45, 45) :
+                pygame.draw.rect(fenetre, (67,150,97), (50, 50, 45, 45))
+
+            def clique_case ():
+                if event.pos == (95, 140, 45, 45) :
+                    return True
+            clique()
+                
+            if clique_case() == True :
+                monstre1 = pygame.image.load("monstre1.png").convert_alpha()
+                fenetre.blit(monstre1,(95, 140))
+                pygame.draw.rect(fenetre, (250,240,197), (95, 95, 45, 45))
+    
+    
+    pygame.display.flip()
+    continuer = True
+    while continuer :
+        for event in pygame.event.get():
+            if event.type == QUIT :
+                continuer = False
+                
+finally :
+    pygame.quit()
