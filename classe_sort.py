@@ -18,28 +18,25 @@ class Sort:
 #adv = adversaire
 
     def action_sort(self, perso, adv):
-         """ self, Personnage, Personnage -> void
+        """ self, Personnage, Personnage -> void
              Préconditions : self.pv != 0
              Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
 
-        if condition_sort(): #True
-        # choix du sort lancé
-        if self.type == "attaque" :
-            attaque_action(self, adv)
-        elif self.type == defense:
-            if self.nom == "defense":
-                defense_action(self, adv)
-            else:
+        if perso.cat == Joueur:
+            if self.type == "attaque" :
+                attaque_action(self, adv)
+            elif self.type == defense:
+                if self.type == "defense":
+                    defense_action(self, adv)
+            #elif perso.cat == Boss:
+            elif self.type == "Augmentation":
                 augmentation_action(self, perso)
 
-        else:
-            soin_action(self, perso)
+            else:
+                soin_action(self, perso)
+
         #perte de PA
         perso.pa = perso.pa - self.cout
-
-    def
-
-
 
     def est_zone(perso, liste_monstres, zone):
         """ Personnage, list[Personnage], Sort -> list
@@ -98,8 +95,31 @@ class Sort:
         if self.nom == "Illumination":
             perso.pv = perso.pv + self.degats #degats = pv rendu
 
+
+#--------------Coordonnées des sorts--------------#
+
+
+#position du joueur
+x = Joueur.pstn[0]
+y = Joueur.pstn[1]
+
+# var = [(face),(left), (right),   (back)]
+zone_explosion = [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180)] # 1
+zone_fleches_empoisonnees = [[(x, y-180), (x-45, y-180), (x+45, y-180)], [(x, y+180), (x-45, y+180), (x+45, y+180)]] # 2
+zone_coup_de_couteau = [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]] # 3
+zone_augmentation = [(x,y)] # 4
+zone_immobilisation = ([(x-45,y),(x-90, y), (x-135, y), (x-180,y)],[(x+45,y),(x+90, y), (x+135, y), (x+180,y)]) # 5
+zone_eclair = [[(x,y-180)], [(x-180, y)], [(x+180, y)], [(x,y+180)]]  #6
+zone_benediction = [(x,y)] # 7
+#haut, droite, gauche, bas
+zone_illumination = [ [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180), (x,y-45), (x-45, y-45), (x+45, y-45)],
+[(x+90,y+45), (x+135,y+45), (x+180, y+45),(x+90, y), (x+135, y), (x+180, y), (x+90,y-45), (x+135, y-45), (x+180, y-45),(x+45,y), (x+45,y-45), (x+45, y+45)],
+[(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45), (x-45, y), (x-45, y+45), (x-45, y-45)],
+[(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45)] ]
+
+
 #-----------Création des sorts---------#
-#def __init__(self, nom, degats, type, 'zoneh, zonel, projection,' cout, description):
+#def __init__(self, nom, degats, type, zone, cout, description):
 
 #-----Attaque-----#
 explosion = Sort("Explosion", 130, "attaque", zone_explosion, 3, "Fais exploser une bombe infligeant des degats de zone.")
@@ -112,32 +132,13 @@ coup_de_couteau2 = Sort("Coup de couteau", 150, "attaque", zone_coup_de_couteau,
 #-----Defense-----#
 augmentation = Sort("Augmentation", None, "defense", zone_augmentation, 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
 eclair = Sort("Eclair", None, "defense", zone_eclair, 2, "Envoie un éclair qui va restraindre son adversaire en lui enlevant des pd pour un tour.")
+immobilisation = Sort("Immobilisation", None, zone_immobilisation, 4, "Immobilise son adversaire en créeant une faille sur 4 cases.")
 
 #-----Soin--------#
-benediction = Sort("Bénédiction", None, "soin", zone_benediction 5, "Bénis le joueur en lui régénerant 20% de son nombre de point de vie total. ")
-illumination = Sort("Illumination", 200, "soin", zone_illumination 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
+benediction = Sort("Bénédiction", None, "soin", zone_benediction, 5, "Bénis le joueur en lui régénerant 20% de son nombre de point de vie total. ")
+illumination = Sort("Illumination", 200, "soin", zone_illumination, 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
 illumination1 = Sort("Illumination", 50, "soin", zone_illumination, 1, "Soigne le joueur de 50 pv en abatant son sceptre de lumière.")
 illumination2 = Sort("Illumination", 100, "soin", zone_illumination, 1, "Soigne le joueur de 100 pv en abatant son sceptre de lumière.")
-
-#--------------Coordonnées des sorts--------------#
-
-# var = [(face),(left), (right),   (back)]
-zone_explosion = [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180)] # 1
-zone_fleches_empoisonnees = [[(x, y-180), (x-45, y-180), (x+45, y-180)], [(x, y+180), (x-45, y+180), (x+45, y+180)]] # 2
-zone_coup_de_couteau = [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]] # 3
-zone_augmentation = [(x,y)] #
-zone_eclair = [[(x,y-180)], [(x-180, y)], [(x+180, y)], [(x,y+180)]]  #5
-zone_benediction = [(x,y)] # 6
-zone_illumination = [(x,y-45), (x-45, y-45), (x+45, y-45), (x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180),
-(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45),
-(x+90, y), (x+135, y), (x+180, y), (x+90,y+45), (x+135,y+45), (x+180, y+45), (x+90,y-45), (x+135, y-45), (x+180, y-45), (x-45,y), (x+45, y),
-(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45)] #7
-
-
-
-
-
-
 
 
 
