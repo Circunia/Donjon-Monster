@@ -1,7 +1,6 @@
 #--------Gestionnaire d'évenement--------#
 
 #importations
-
 from random import *
 
 
@@ -15,33 +14,35 @@ def tour_par_tour(joueur):
     statut_victoire = victoire(joueur, liste_adversaire) # True, False, "continue"
     if statut_victoire == "continue" :
         return
-    if victoire :
-
+    if victoire() :
+        #lance la salle suivante
         #recompense(joueur)
+    elif victoire() == False:
+        reponse = input("Veux tu recommencer le niveau ? Oui/ Non")
+        if reponse == Oui :
+            #relancer le niveau
+        else :
+            #retourne à l'accueil
     else :
-        #fonction qui propose au joueur de recommencer la salle
+        #ne rien faire, break ?
 
 
-# def recompense(joueur):
-#     """ Personnage -> str, str
-#         Préconditions : None
-#         Rôle : Le joueur choisit entre deux cadeaux avant de passer au niveau suivant. Modification des attributs du joueur en conséquence. """
-#
-#     dict_recompenses = {}
-#     dict_recompenses["Point de vie"] = 100
-#     dict_recompenses["Dégâts suplémentaires"] = 50 # bonus de dégat à ajouter dans la classe sort
-#     dict
-#
-#
-#
-# #faire appel à une fonction input graphique qui renvoie la récompense choisi puis continuer et modifier les attributs du joueur.
-#
-#
-#     return recompense1 and recompense2
+def recompense(joueur):
+    """ Personnage -> str, str
+        Préconditions : None
+        Rôle : Le joueur choisit entre deux cadeaux avant de passer au niveau suivant. Modification des attributs du joueur en conséquence. """
+
+    dict_recompenses = {"Point de Vie Niveau " : 100, "Point de Vie" : 200, "Point de vie" : 300, "Dégâts supplémentaires Niveau 1" : 50, "Dégâts supplémentaires"}
+
+
+#faire appel à une fonction input graphique qui renvoie la récompense choisi puis continuer et modifier les attributs du joueur.
+
+
+    return recompense1 and recompense2
 
 
 
- def victoire(joueur, liste_adversaire):
+def victoire(joueur, liste_adversaire):
     """ Personnage, list -> bool
         Préconditions : None
         Rôle : Si le joueur a des pv (est en vie, (pv > 0)) et que tout les monstres n'ont plus de pv (sont morts, (pv <= 0)) retourner TRUE,
@@ -57,9 +58,6 @@ def tour_par_tour(joueur):
         if nb_mort == len(liste_adversaire):
             return True
         return "continue" # le joueur peut continuer de jouer mais tout les monstres ne sont pas morts.
-
-
-#retirer le monstre
 
 #----------------TEST-----------------#
 victoire(perso1, liste_adversaire)

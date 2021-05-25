@@ -4,17 +4,18 @@
 
 class Sort:
 
-    def __init__(self, nom, degats, type_sort, zone, cout, description):
-      """ Type : self, str, int, str, list, int, str -> void
+
+    def __init__(self, nom, degats, type_sort, cout, description):
+        """ Type : self, str, int, str, list, int, str -> void
           Préconditions : None
           Rôle : Initialise les attributs de la classe Sort. """
 
-      self.nom = nom #nom donné au sort
-      self.degats = degats # nombre de pv retirés par le sort
-      self.type = type_sort # attaque, soin, défense
-      self.zone = zone # liste de coordonnées (x,y) d'action du sort
-      self.cout = cout # nombre de pa que nécessite le sort
-      self.desc = description # description du sort
+        self.nom = nom #nom donné au sort
+        self.degats = degats # nombre de pv retirés par le sort
+        self.type = type_sort # attaque, soin, défense
+        self.cout = cout # nombre de pa que nécessite le sort
+        self.desc = description # description du sort
+
 
 #perso = joueur
 #adv = adversaire
@@ -41,21 +42,50 @@ class Sort:
         perso.pa = perso.pa - self.cout
 
 
-
-    def est_zone(perso, liste_monstres, zone):
-        """ Personnage, list[Personnage], Sort -> list
+    def est_zone(self, perso, liste_monstres):
+        """ Sort, Personnage, list -> list, list
             Préconditions : None
             Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort et renvoit False si la liste de monstres est vide sinon la liste de coordonnées des monstres dans la zone. """
+
+        #position du joueur
+        x = perso.pstn[0]
+        y = perso.pstn[1]
+
+        #--------------Coordonnées des sorts--------------#
+
+        # var = [(face),(left), (right), (back)]
+        zone = {"Explosion" : [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180)],
+        "Fleches Empoisonnees" : [[(x, y-180), (x-45, y-180), (x+45, y-180)], [(x, y+180), (x-45, y+180), (x+45, y+180)]],
+        "Coup de couteau" : [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]],
+        "Augmentation" : [(x,y)],
+        "Immobilisation" : ([(x-45,y),(x-90, y), (x-135, y), (x-180,y)],[(x+45,y),(x+90, y), (x+135, y), (x+180,y)]),
+        "Eclair" : [[(x,y-180)], [(x-180, y)], [(x+180, y)], [(x,y+180)]],
+        "Benediction" : [(x,y)],
+        #haut, droite, gauche, bas
+        "Illumination" : [ [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180), (x,y-45), (x-45, y-45), (x+45, y-45)],
+        [(x+90,y+45), (x+135,y+45), (x+180, y+45),(x+90, y), (x+135, y), (x+180, y), (x+90,y-45), (x+135, y-45), (x+180, y-45),(x+45,y), (x+45,y-45), (x+45, y+45)],
+        [(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45), (x-45, y), (x-45, y+45), (x-45, y-45)],
+        [(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45)] ]}
+
+        print(zone[self.nom])
+        coord_sort = []
+        for nom in range(len(zone)):
+            #if nom ? == self.nom:
+                coord_sort.append(zone[self.nom])
+                print(zone)
+                print(coord_sort)
 
         if perso.cat == "Joueur":
             liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
             for i in range(len(liste_monstres)):
-                if liste_monstres[i].pstn in zone:
+                if liste_monstres[i].pstn in coord_sort:
                     liste_monstre_in_zone.append(liste_monstres[i])
                     if liste_monstre_in_zone == []:
                         return False
                     else:
-                        return liste_monstre_in_zone
+                        return liste_monstre_in_zone and coord_sort
+
+
 
 
 #-----------Actions des sorts------------#
@@ -65,6 +95,7 @@ class Sort:
         """ Sort, Personnage -> void
             Préconditions : perso.pv != 0
             Rôle : A l'aide d'une attaque fait perdre des points de vie à ses adversaires."""
+
 
         adv.pv = adv.pv - self.degats
 
@@ -99,49 +130,6 @@ class Sort:
         if self.nom == "Illumination":
             perso.pv = perso.pv + self.degats #degats = pv rendu
 
-#--------------Coordonnées des sorts--------------#
-
-#position du joueur
-x = Joueur.pstn[0]
-y = Joueur.pstn[1]
-
-# var = [(face),(left), (right),   (back)]
-zone_explosion = [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180)] # 1
-zone_fleches_empoisonnees = [[(x, y-180), (x-45, y-180), (x+45, y-180)], [(x, y+180), (x-45, y+180), (x+45, y+180)]] # 2
-zone_coup_de_couteau = [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]] # 3
-zone_augmentation = [(x,y)] # 4
-zone_immobilisation = ([(x-45,y),(x-90, y), (x-135, y), (x-180,y)],[(x+45,y),(x+90, y), (x+135, y), (x+180,y)]) # 5
-zone_eclair = [[(x,y-180)], [(x-180, y)], [(x+180, y)], [(x,y+180)]]  #6
-zone_benediction = [(x,y)] # 7
-#haut, droite, gauche, bas
-zone_illumination = [ [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180), (x,y-45), (x-45, y-45), (x+45, y-45)],
-[(x+90,y+45), (x+135,y+45), (x+180, y+45),(x+90, y), (x+135, y), (x+180, y), (x+90,y-45), (x+135, y-45), (x+180, y-45),(x+45,y), (x+45,y-45), (x+45, y+45)],
-[(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45), (x-45, y), (x-45, y+45), (x-45, y-45)],
-[(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45)] ]
-
-
-#-----------Création des sorts---------#
-#def __init__(self, nom, degats, type, zone, cout, description):
-
-#-----Attaque-----#
-explosion = Sort("Explosion", 130, "attaque", zone_explosion, 3, "Fais exploser une bombe infligeant des degats de zone.")
-fleches_empoisonnees = Sort("Flèches empoisonnées", 200, "attaque", zone_fleches_empoisonnees, 2, "Envoie 3 flèches empoisonnées sur son adversaire.")
-coup_de_couteau = Sort("Coup de couteau", 50, "attaque", zone_coup_de_couteau, 1, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen." )
-coup_de_couteau1 = Sort("Coup de couteau", 100, "attaque", zone_coup_de_couteau, 2, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen.")
-coup_de_couteau2 = Sort("Coup de couteau", 150, "attaque", zone_coup_de_couteau, 3, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen.")
-
-
-#-----Defense-----#
-augmentation = Sort("Augmentation", None, "defense", zone_augmentation, 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
-eclair = Sort("Eclair", None, "defense", zone_eclair, 2, "Envoie un éclair qui va restraindre son adversaire en lui enlevant des pd pour un tour.")
-immobilisation = Sort("Immobilisation", None, zone_immobilisation, 4, "Immobilise son adversaire en créeant une faille sur 4 cases.")
-
-#-----Soin--------#
-benediction = Sort("Bénédiction", None, "soin", zone_benediction, 5, "Bénis le joueur en lui régénerant 20% de son nombre de point de vie total. ")
-illumination = Sort("Illumination", 200, "soin", zone_illumination, 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
-illumination1 = Sort("Illumination", 50, "soin", zone_illumination, 1, "Soigne le joueur de 50 pv en abatant son sceptre de lumière.")
-illumination2 = Sort("Illumination", 100, "soin", zone_illumination, 1, "Soigne le joueur de 100 pv en abatant son sceptre de lumière.")
-
 
 
 #-------------- Classe Personnage ------------------#
@@ -150,8 +138,8 @@ for i in range (14) :
     for j in range (14) :
         c1 = (50+i*45, 50 + j*45)
         liste_case.append(c1)
-print(len(liste_case))
-print(liste_case)
+#print(len(liste_case))
+#print(liste_case)
 
 #graphe
 graphe1 = []
@@ -303,7 +291,6 @@ def definir_obstacle (g, liste_obstacle, liste_case):
             graphe1[obstacle][obstacle-14] = 0
             graphe1[obstacle-14][obstacle] = 0
 
-print(graphe1)
 
 def liste_successeurs(g, i):
     """list, int -> list[int]
@@ -382,7 +369,7 @@ from random import randint
 
 class Personnage :
 
-    def __init__ (self, nom, image1, categorie, pv, pa, pd, sorts, position):
+    def __init__ (self, nom, image1, categorie, pv, pv_t, pa, pd, sorts, position):
         """ self, str, png, png, str, int, int, int, dict, tuple
             Préconditions : aucune
             Rôle : Initialise les attributs de la classe Personnage"""
@@ -574,14 +561,34 @@ class Personnage :
                 if self.pa >= self.sorts["attaque"][0].cout :
                     self.sorts["attaque"][0].action_sorts(self, Joueur)
 
+#--------------Coordonnées des sorts--------------#
+#-----------Création des sorts---------#
+#def __init__(self, nom, degats, type, cout, description):
+
+#-----Attaque-----#
+explosion = Sort("Explosion", 130, "attaque", 3, "Fais exploser une bombe infligeant des degats de zone.")
+fleches_empoisonnees = Sort("Flèches empoisonnées", 200, "attaque", 2, "Envoie 3 flèches empoisonnées sur son adversaire.")
+coup_de_couteau = Sort("Coup de couteau", 50, "attaque", 1, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen." )
+coup_de_couteau1 = Sort("Coup de couteau", 100, "attaque", 2, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen.")
+coup_de_couteau2 = Sort("Coup de couteau", 150, "attaque", 3, "Poignarde son adversaire de 3 coups de couteaux dans l'abdomen.")
 
 
+#-----Defense-----#
+augmentation = Sort("Augmentation", None, "defense", 4, "Le joueur augmente son nombre de point de vie total pour le reste de la partie.")
+eclair = Sort("Eclair", None, "defense", 2, "Envoie un éclair qui va restraindre son adversaire en lui enlevant des pd pour un tour.")
+immobilisation = Sort("Immobilisation", None,"defense", 4, "Immobilise son adversaire en créeant une faille sur 4 cases.")
+
+#-----Soin--------#
+benediction = Sort("Bénédiction", None, "soin", 5, "Bénis le joueur en lui régénerant 20% de son nombre de point de vie total. ")
+illumination = Sort("Illumination", 200, "soin", 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
+illumination1 = Sort("Illumination", 50, "soin", 1, "Soigne le joueur de 50 pv en abatant son sceptre de lumière.")
+illumination2 = Sort("Illumination", 100, "soin", 1, "Soigne le joueur de 100 pv en abatant son sceptre de lumière.")
+
+#-----personnage--------#
 Joueur = Personnage("You", "joueur.png", "Joueur", 1200, 1200, 7, 4, {"attaque" : [explosion, fleches_empoisonnees], "soin" : [benediction], "defense" : [immobilisation]}, (140, 320))
 
 #Niveau 1
-perso = (140,320)
-liste_o = [(500,95), (185,500), (455,545)]
-liste_m = [[monstre1_1_niv1, (365,95)],[monstre1_2_niv1, (365,365)], [monstre1_3_niv1,(365,590)],[monstre2_1_niv1, (545,230)] ,[monstre2_1_niv1, (545,410)]]
+
 
 monstre1_1_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (365,95))
 monstre1_2_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (365,365))
@@ -589,5 +596,12 @@ monstre1_3_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2,
 monstre2_1_niv1 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 2, 3, {"attaque" : [coup_de_couteau1], "soin": [illumination]}, (545,230))
 monstre2_2_niv1 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 2, 3, {"attaque" : [coup_de_couteau1], "soin": [illumination]}, (545,410))
 
+liste_o = [(500,95), (185,500), (455,545)]
+liste_m = [monstre1_1_niv1, monstre1_2_niv1, monstre1_3_niv1,monstre2_1_niv1 ,monstre2_1_niv1]
+
+
+
+
 #----------------------Test---------------------#
-action(monstre1_3_niv1)
+
+benediction.est_zone(Joueur, liste_m)
