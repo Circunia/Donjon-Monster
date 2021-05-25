@@ -11,6 +11,7 @@ class Sort:
         self.degats = degats # nombre de pv retirés par le sort
         self.type = type_sort # attaque, soin, défense
         self.cout = cout # nombre de pa que nécessite le sort
+        #self.img = image # l'image correspondant au sort (et son action en jeu)
         self.desc = description # description du sort
 
 #perso = joueur
@@ -60,24 +61,19 @@ class Sort:
         "Illumination" : [ [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180), (x,y-45), (x-45, y-45), (x+45, y-45)],
         [(x+90,y+45), (x+135,y+45), (x+180, y+45),(x+90, y), (x+135, y), (x+180, y), (x+90,y-45), (x+135, y-45), (x+180, y-45),(x+45,y), (x+45,y-45), (x+45, y+45)],
         [(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45), (x-45, y), (x-45, y+45), (x-45, y-45)],
-        [(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45)] ]"}
+        [(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45)] ]}
 
-        coord_sort = []
-        for nom in range(len(zone)):
-            if zone[nom] == self.nom:
-                coord_sort.append(zone[self.nom])
-                print(zone)
-                print(coord_sort)
+        zone_sort = zone[self.nom]
 
         if perso.cat == "Joueur":
             liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
             for i in range(len(liste_monstres)):
-                if liste_monstres[i].pstn in coord_sort:
+                if liste_monstres[i].pstn in zone_sort:
                     liste_monstre_in_zone.append(liste_monstres[i])
                     if liste_monstre_in_zone == []:
                         return False
                     else:
-                        return liste_monstre_in_zone and coord_sort
+                        return liste_monstre_in_zone and zone_sort
 
     # def zone_coord(self, dico_coordonnees, liste_monstres, perso):
     #     """ Sort, dict -> list[2-uplet]
@@ -113,7 +109,7 @@ class Sort:
             Préconditions : perso.pv != 0
             Rôle : Augmente le nombre de pv du joueur de 5% en fonction du nombre de pv_t. """
 
-        perso.pv_t = 1,05*perso.pv_t
+        perso.pv_t = 1.05*perso.pv_t
 
     def defense_action(self, adv):
         """ Sort, Personnage -> void

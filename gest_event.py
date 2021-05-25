@@ -27,26 +27,29 @@ def tour_par_tour(joueur):
         #ne rien faire, break ?
 
 
-def recompense(joueur):
+def recompense():
     """ Personnage -> str, str
         Préconditions : None
         Rôle : Le joueur choisit entre deux cadeaux avant de passer au niveau suivant. Modification des attributs du joueur en conséquence. """
 
-    dict_recompenses = {"Point de Vie Niveau " : 100, "Point de Vie" : 200, "Point de vie" : 300, "Dégâts supplémentaires Niveau 1" : 50, "Dégâts supplémentaires"}
+    dict_recompense = {"Point de Vie Niveau 1 " : 100, "Point de Vie NIveau 2" : 200, "Point de vie Niveau 3" : 300, "Dégâts supplémentaires Niveau 1" : 50, "Dégâts supplémentaires Niveau 2" : 100, "Dégâts supplémentaires Niveau 2" : 150 }
+    liste_recompense_keys = list(dict_recompense.keys())
+    liste_recompense_values = list(dict_recompense.values())
+    liste_recompense_items = list(dict_recompense.items())
+    recompense1 = choice(liste_recompense_keys)
+    recompense2 = choice(liste_recompense_keys)
+    #reponse = print("Choisis l'une des deux récompenses suivantes avant de passer au niveau suivant.")
+    #affichage des deux récompenses
+    recompense = #
+    return recompense
 
-
-#faire appel à une fonction input graphique qui renvoie la récompense choisi puis continuer et modifier les attributs du joueur.
-
-
-    return recompense1 and recompense2
-
+print(recompense())
 
 
 def victoire(joueur, liste_adversaire):
     """ Personnage, list -> bool
         Préconditions : None
-        Rôle : Si le joueur a des pv (est en vie, (pv > 0)) et que tout les monstres n'ont plus de pv (sont morts, (pv <= 0)) retourner TRUE,
-               sinon retourner FALSE. """
+        Rôle : Rôle : Si le joueur a des pv (est en vie, (pv > 0)) et que tout les monstres n'ont plus de pv (sont morts, (pv <= 0)) retourner TRUE, si tout les monstres ne sont pas morts retourne "continue", sinon retourner FALSE. """
 
     nb_mort = 0
     if est_mort(joueur): # défaite
@@ -60,4 +63,4 @@ def victoire(joueur, liste_adversaire):
         return "continue" # le joueur peut continuer de jouer mais tout les monstres ne sont pas morts.
 
 #----------------TEST-----------------#
-victoire(perso1, liste_adversaire)
+
