@@ -1,0 +1,156 @@
+import pygame
+from pygame.locals import *
+from classe_personnage import*
+
+def affiche(Joueur,liste_m,liste_o):
+    fenetre = pygame.display.set_mode((largeur, hauteur))
+    pygame.draw.rect(fenetre, (255,255,255), (0, 0, 1300, 700))
+    
+    
+
+    
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (225,206,154), (50+90*i, 50+90*j, 45, 45))
+            n = str(50+90*i) +" , " + str (50+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (50+90*i, 50+90*j))
+
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (225,206,154), (95+90*i, 95+90*j, 45, 45))
+            n = str(95+90*i) +" , " + str (95+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (95+90*i, 95+90*j))
+            
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (250,240,197), (95+90*i, 50+90*j, 45, 45))
+            n = str(95+90*i) +" , " + str (50+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (95+90*i, 50+90*j+20))
+            
+    for i in range (7):
+        for j in range (7):
+            pygame.draw.rect(fenetre, (250,240,197), (50+90*i, 95+90*j, 45, 45))
+            n = str(50+90*i) +" , " + str (95+90*j)
+            font = pygame.font.SysFont("Aller", 17, bold = False, italic = False)
+            texte = font.render(n, 1, (0,0,0))
+            fenetre.blit(texte, (50+90*i, 95+90*j +20))
+            
+    for case in zone :
+        pygame.draw.rect(fenetre, (49, 200, 170), (case[0], case[1], 45, 45))
+        
+    joueur = pygame.image.load("joueur.png").convert_alpha()
+    fenetre.blit(joueur,(Joueur.pstn))
+    
+    for monstre in liste_m :
+        monstre1 = pygame.image.load(monstre.im1).convert_alpha()
+        fenetre.blit(monstre1,(monstre.pstn[0],monstre.pstn[1]))
+        
+    for o in liste_o :
+        pygame.draw.rect(fenetre, (49, 140, 230), (o[0],o[1], 45, 45))
+        
+    pygame.draw.rect(fenetre, (0,0,0), (725, 50, 530, 630), 4)
+    pygame.draw.line(fenetre, (0,0,0), (990, 55), (990, 675), 3)
+    
+    
+    c1 = (1005, 65)
+    for i in range(len(liste_m)) :
+        image = pygame.image.load(liste_m[i].im1).convert_alpha()
+        fenetre.blit(image,(1005,65+i*77))
+        font = pygame.font.SysFont("Aller", 18, bold = False, italic = False)
+        texte = font.render(liste_m[i].nom, 1, (0,0,0))
+        fenetre.blit(texte, (1005,115+i*77))
+        if liste_m[i].est_mort() == False :
+            pygame.draw.rect(fenetre, (255, 0, 0), (1065,85+i*77, int(((100 * liste_m[i].pv) / liste_m[i].pv_t)), 12))
+            pygame.draw.rect(fenetre, (0, 0, 0), (1065,85+i*77, 100, 12), 2)
+            font2 = pygame.font.SysFont("Aller", 20, bold = False, italic = False)
+            t = str(liste_m[i].pv) + "/" + str(liste_m[i].pv_t)
+            texte_pv = font2.render(t,1, (0,0,0))
+            fenetre.blit(texte_pv, (1170, 85+i*77))
+        else :
+            font1 = pygame.font.SysFont("Aller", 20, bold = False, italic = False)
+            texte_d = font1.render("DEAD",1, (0,0,0))
+            fenetre.blit(texte_d, (1100, 85+i*77))
+            font2 = pygame.font.SysFont("Aller", 20, bold = False, italic = False)
+            t = "0" + "/" + str(liste_m[i].pv_t)
+            texte_pv = font2.render(t,1, (0,0,0))
+            fenetre.blit(texte_pv, (1170, 85+i*77))
+            
+    pygame.draw.rect(fenetre, (0, 0, 0), (740, 65, 45, 45))
+    font = pygame.font.SysFont("Aller", 22, bold = False, italic = False)
+    texte = font.render(Joueur.nom, 1, (0,0,0))
+    fenetre.blit(texte, (800,80))
+    pygame.draw.rect(fenetre, (255, 0, 0), (740, 125, int(160*((100 * Joueur.pv) / Joueur.pv_t)/100), 12))
+    pygame.draw.rect(fenetre, (0, 0, 0), (740, 125, 160, 12), 2)
+    font2 = pygame.font.SysFont("Aller", 20, bold = False, italic = False)
+    t = str(Joueur.pv) + "/" + str(Joueur.pv_t)
+    texte_pv = font2.render(t,1, (0,0,0))
+    fenetre.blit(texte_pv, (910, 125))
+    texte_pd = font.render("PD : ", 1, (0,0,0))
+    texte_pa = font.render("PA : ", 1, (0,0,0))
+    fenetre.blit(texte_pd, (740, 155))
+    fenetre.blit(texte_pa, (740, 185))
+    for i in range(Joueur.pd):
+        pygame.draw.rect(fenetre, (87,213,60), (780 +i*20, 155, 12, 12))
+    for i in range(Joueur.pa):
+        pygame.draw.rect(fenetre, (223,160,220), (780 +i*20, 185, 12, 12))
+    for i in range(4):
+        pygame.draw.rect(fenetre, (0,0,0), (780 +i*20, 155, 12, 12),2)
+    for i in range(7):
+        pygame.draw.rect(fenetre, (0,0,0), (780 +i*20, 185, 12, 12),2)
+        
+    texte_s_a = font.render("Sorts d'attaque : ", 1, (0,0,0))
+    fenetre.blit(texte_s_a, (740, 215))
+    for i in range (len(Joueur.sorts["attaque"])):
+        pygame.draw.rect(fenetre, (45,78,98), (740, 240+ i*50, 35, 35))
+        texte_ns = font2.render(Joueur.sorts["attaque"][i],1, (0,0,0))
+        fenetre.blit(texte_ns, (790, 240+i*50))
+#         for j in range (Joueur.sorts["attaque"][i].cout):
+#             pygame.draw.rect(fenetre, (223,160,220), (790 +j*20, 260+ i*50, 12, 12))
+#             pygame.draw.rect(fenetre, (0,0,0), (790 +j*20, 260+ i*50, 12, 12),2)
+    texte_s_a = font.render("Sorts de soin : ", 1, (0,0,0))
+    fenetre.blit(texte_s_a, (740, 345))
+    for i in range (len(Joueur.sorts["soin"])):
+        pygame.draw.rect(fenetre, (45,78,98), (740, 370+ i*50, 35, 35))
+        texte_ns = font2.render(Joueur.sorts["soin"][i],1, (0,0,0))
+        fenetre.blit(texte_ns, (790, 370+i*50))
+#         for j in range (Joueur.sorts["attaque"][i].cout):
+#             pygame.draw.rect(fenetre, (223,160,220), (790 +j*20, 390+ i*50, 12, 12))
+#             pygame.draw.rect(fenetre, (0,0,0), (790 +j*20, 390+ i*50, 12, 12),2)
+    texte_s_a = font.render("Sorts de défense : ", 1, (0,0,0))
+    fenetre.blit(texte_s_a, (740, 425))
+    for i in range (len(Joueur.sorts["defense"])):
+        pygame.draw.rect(fenetre, (45,78,98), (740, 450+ i*50, 35, 35))
+        texte_ns = font2.render(Joueur.sorts["defense"][i],1, (0,0,0))
+        fenetre.blit(texte_ns, (790, 450+i*50))
+        for j in range (5):
+            pygame.draw.rect(fenetre, (223,160,220), (790 +j*20, 470+ i*50, 12, 12))
+            pygame.draw.rect(fenetre, (0,0,0), (790 +j*20,470+ i*50, 12, 12),2)
+            
+    pygame.display.flip()
+# dimensions de la fenetre :
+largeur = 1300 # largeur en pixels
+hauteur = 700 # hauteur en pixels
+tour=0
+try:
+    fenetre = pygame.display.set_mode((largeur,hauteur))
+    Joueur = Personnage("You", "joueur.png", "Joueur", 1200, 1200, 7, 4, {"attaque" : ["explosion, fleches_empoisonnees"], "soin" : ["benediction"], "defense" : ["immobilisation"]}, (140, 320))
+    liste_o = [(500,95), (185,500), (455,545)]
+
+    monstre1_1_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : ["coup_de_couteau"]}, (365,95))
+    monstre1_2_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : ["coup_de_couteau"]}, (365,365))
+    monstre1_3_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : ["coup_de_couteau"]}, (365,590))
+    monstre2_1_niv1 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 2, 3, {"attaque" : ["coup_de_couteau1"], "soin": ["illumination"]}, (545,230))
+    monstre2_2_niv1 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 2, 3, {"attaque" : ["coup_de_couteau1"], "soin": ["illumination"]}, (545,410))
+    liste_m = [monstre1_1_niv1, monstre1_2_niv1, monstre1_3_niv1,monstre2_1_niv1 ,monstre2_1_niv1]
+
+    zone_possible=[(50,95),(95,140),(50,140)]
+    affiche(Joueur,liste_m,liste_o)
+    
+finally:
+    pygame.quit()
