@@ -66,26 +66,24 @@ Attributs :
 - nom (str) 
 - degats (int) : nombre de pv retirés par le sort 
 - type (str) : attaque, soin, défense 
-- zoneh (list) : définit la zone sur laquelle le sort peut agir 
-- zonel (list) : définit la zone sur laquelle le sort peut agir 
-- projection (int) : distance entre le joueur et la zone 
 - cout (int) : nombre de pa utilisé par le sort
 - description (str) : description du sort 
 
 Fonctions/Méthodes:
         constructeur
 
-        action_sort(self, adv):
+        action_sort(self,perso , adv):
         """ self, Personnage, Personnage -> void
                      Préconditions : self.pv != 0
                      Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
 
-        zone_action(self, perso, zoneh, zonel):
-        """ self, Personnage -> list
-                    Préconditions : None
-                    Rôle : Retourne une list correspondant à la zone d'action du sort."""
-
-
+        
+        def est_zone(self, perso, liste_monstres):
+        """ Personnage, list[Personnage], Sort -> list
+            Préconditions : None
+            Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort et renvoit False si la liste de monstres est vide sinon la liste de               coordonnées des monstres dans la zone. """
+            
+        attaque / augmentation / defense / soin 
 
 Variables Globales : 
 liste_monstres1 : list(Personnage) : liste des monstres du niveau 1 
@@ -93,9 +91,7 @@ liste_monstres2 : list(Personnage) : liste des monstres du niveau 2
 liste_monstres3 : list(Personnage) : liste des monstres du niveau 3 
 Joueur(Personnage): Personnage du Joueur 
 liste_sort : list(Sort) liste des sorts possibles 
-Grille1 : Grille de jeu du niveau 1 
-Grille2 : Grille de jeu du niveau 2 
-Grille3 : Grille de jeu du niveau 3 
+Graphe1 : Grille de jeu du niveau 1, 2 et 3
 Barre1 : Barre de tâche (graphique) du niveau 1 
 Barre2 : Barre de tâche (graphique) du niveau 2 
 Barre3 : Barre de tâche (graphique) du niveau 3 
@@ -119,15 +115,15 @@ Rend visible les dégâts à l’aide d’une animation : change l’image du mo
 
 Gestionnaire d'evenements: 
 
-tour_par_tour(Joueur, liste_monstre): 
-
-
-victoire(): 
-Victoire pour le joueur si tous les monstres ont perdu leurs points de vie, défaite si le joueur perd tous ses points de vie. 
-Si le joueur perd tous ses pv ou ou si le joueur a encore des pv et qu’aucun des monstres n’est en vie
-Rôle: lancer le niveau suivant en cas de victoire et proposer des récompenses (appel à la fonction récompense), proposer de recommencer le niveau actuel en cas de défaite.
-Joueur(Personnage), liste_monstre(list) -> void 
-Teste les pv des personnages, tant que le joueur est en vie et qu’au moins un des monstres est en vie (pv > 0), est_mort() -> TRUE, fait jouer tous les personnages restants.
+    def tour_par_tour(joueur):
+    """ Personnage -> void
+        Préconditions : None
+        Rôle : Appel chaque fonction du gestionnaire des tâches pour mettre à jour les évenements et fait jouer le personnage suivant. """
+        
+    def victoire(joueur, liste_adversaire):
+    """ Personnage, list -> bool
+        Préconditions : None
+        Rôle : Si le joueur a des pv (est en vie, (pv > 0)) et que tout les monstres n'ont plus de pv (sont morts, (pv <= 0)) retourner TRUE, si tout les monstres ne         sont pas morts retourne "continue", sinon retourner FALSE. """
 
 recompense(): 
 Aucun paramètre 
