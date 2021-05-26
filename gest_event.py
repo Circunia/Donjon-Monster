@@ -34,16 +34,17 @@ def recompense():
 
     dict_recompense = {"Point de Vie Niveau 1 " : 100, "Point de Vie NIveau 2" : 200, "Point de vie Niveau 3" : 300, "Dégâts supplémentaires Niveau 1" : 50, "Dégâts supplémentaires Niveau 2" : 100, "Dégâts supplémentaires Niveau 2" : 150 }
     liste_recompense_keys = list(dict_recompense.keys())
-    liste_recompense_values = list(dict_recompense.values())
-    liste_recompense_items = list(dict_recompense.items())
+    liste_recompense_keys_pv = liste_recompense_keys[0:2]
+    liste_recompense_keys_degats =  liste_recompense_keys[2:]
     recompense1 = choice(liste_recompense_keys)
     recompense2 = choice(liste_recompense_keys)
-    #reponse = print("Choisis l'une des deux récompenses suivantes avant de passer au niveau suivant.")
+    # print("Choisis l'une des deux récompenses suivantes avant de passer au niveau suivant.")
     #affichage des deux récompenses
     recompense = #
-    return recompense
 
-print(recompense())
+    if recompense in liste_recompense_keys_pv:
+        perso.pv_t + dict_recompense[recompense]
+
 
 
 def victoire(joueur, liste_adversaire):
@@ -63,4 +64,3 @@ def victoire(joueur, liste_adversaire):
         return "continue" # le joueur peut continuer de jouer mais tout les monstres ne sont pas morts.
 
 #----------------TEST-----------------#
-

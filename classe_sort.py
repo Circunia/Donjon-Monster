@@ -75,33 +75,40 @@ class Sort:
                     else:
                         return liste_monstre_in_zone and zone_sort
 
-    # def zone_coord(self, dico_coordonnees, liste_monstres, perso):
-    #     """ Sort, dict -> list[2-uplet]
-    #         Préconditions : None
-    #         Rôle : Associe des coordonnées à un sort. """
-    #
-    #     print(dico_coordonnees) #zone
-    #     #position du joueur
-    #     x = perso.pstn[0]
-    #     y = perso.pstn[1]
-    #     print(x,y)
-    #
-    #     for nom in range(len(dico_coordonnees)):
-    #         if dico_coordonnees[i] == self.nom:
-    #             zone = dico_coordonnees[self.nom]
-    #             print(zone)
-    #             print(est_zone(perso, liste_monstres, zone))
+ # Je n'arrivais pas à modéliser cette partie donc Manon m'a aidé et a fait ce code.
+ # zone_s = zone[sort]
+ #        zone_c = []
+ #        coordonnees = #appel a une fonction qui détermine sur quel côté le sort va agir
+ #        for i in range(4):
+ #            if coordonnees in zone_s[i]:
+ #                zone_c = zone_s[i]
+ #
+ #        zone_sort = []
+ #        for case in zone_c :
+ #            if case[0] <= 635 and case[0] >= 50 and case[1] <= 635 and case[1] >= 50:
+ #                zone_sort.append(case)
+ #        return zone_sort
+ #
+ #    def monstres_in_zone (self, perso, liste_monstres):
+ #        zone_sort = self.est_zone(perso)
+ #        if perso.cat == "Joueur":
+ #            liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
+ #            for i in range(len(liste_monstres)):
+ #                if liste_monstres[i].pstn in zone_sort:
+ #                    liste_monstre_in_zone.append(liste_monstres[i])
+ #            return liste_monstre_in_zone
+
 
 
 #-----------Actions des sorts------------#
 
     #-----Attaque------#
-    def attaque_action(self, adv):
-        """ Sort, Personnage -> void
+    def attaque_action(self, adv, recompense):
+        """ Sort, Personnage, int -> void
             Préconditions : perso.pv != 0
             Rôle : A l'aide d'une attaque fait perdre des points de vie à ses adversaires."""
 
-        adv.pv = adv.pv - self.degats
+        adv.pv = adv.pv - (self.degats + recompense)
 
     #-----Defense-----#
     def augmentation_action(self, perso):
@@ -135,13 +142,6 @@ class Sort:
             perso.pv = perso.pv + self.degats #degats = pv rendu
 
 
-
-
-
-
-
-
-
 #-----------Création des sorts---------#
 #def __init__(self, nom, degats, type, zone, cout, description):
 
@@ -163,7 +163,6 @@ benediction = Sort("Bénédiction", None, "soin", 5, "Bénis le joueur en lui r�
 illumination = Sort("Illumination", 200, "soin", 1, "Soigne le joueur de 200 pv en abatant son sceptre de lumière.")
 illumination1 = Sort("Illumination", 50, "soin", 1, "Soigne le joueur de 50 pv en abatant son sceptre de lumière.")
 illumination2 = Sort("Illumination", 100, "soin", 1, "Soigne le joueur de 100 pv en abatant son sceptre de lumière.")
-
 
 
 
