@@ -47,41 +47,46 @@ try :
             texte = font.render(n, 1, (0,0,0))
             fenetre.blit(texte, (50+90*i, 95+90*j +20))
 
+
+
     #crée un cadre avec deux carrée où est possé une question à deux réponses
-    surface_victoire = pygame.draw.rect(fenetre, (145, 123, 198), (140, 185, 1000, 300)) # pop up niveau suivant (victoire)
-    surface_defaite = pygame.draw.rect(fenetre, (203, 67, 67), (140, 185, 1000, 300)) # pop up dead (défaite)
+    #creations des rectangles
+    surface_victoire = pygame.draw.rect(fenetre, (145, 123, 198), (140, 185, 1000, 280)) # pop up niveau suivant (victoire)
+    surface_defaite = pygame.draw.rect(fenetre, (203, 67, 67), (140, 185, 1000, 280)) # pop up dead (défaite)
 
-    pygame.draw.rect(fenetre, (0, 0, 0), (140, 185, 1000, 300), 2) # cadre
-    surface_reponse1 = pygame.draw.rect(fenetre, (130, 80, 100), (275, 365, 200, 80)) # réponse 1
-    surface_reponse2 = pygame.draw.rect(fenetre, (130, 80, 100), (770, 365, 200, 80)) # réponse 2
-    pygame.draw.rect(fenetre, (130, 80, 100), (275, 365, 200, 80), 2) # cadre réponse 1
-    pygame.draw.rect(fenetre, (130, 80, 100), (770, 365, 200, 80), 2) # cadre réponse 2
+    pygame.draw.rect(fenetre, (0, 0, 0), (140, 185, 1000, 280), 2) # cadre
+    surface_reponse1 = pygame.draw.rect(fenetre, (130, 80, 100), (275, 365, 200, 50)) # réponse 1
+    surface_reponse2 = pygame.draw.rect(fenetre, (130, 80, 100), (770, 365, 200, 50)) # réponse 2
+    pygame.draw.rect(fenetre, (130, 80, 100), (275, 365, 200, 50), 2) # cadre réponse 1
+    pygame.draw.rect(fenetre, (130, 80, 100), (770, 365, 200, 50), 2) # cadre réponse 2
 
-    area_victoire_centre = pygame.Surface.get_rect(surface_victoire, center=(100,100))
-    print(area_victoire_centre)
-
-
+    #police d'ecriture
     font = pygame.font.SysFont("arial", 30)
-    font1 = pygame.font.Font("BEYONDSKTRIAL.ttf", 50)
+    font1_big = pygame.font.Font("neuropolitical.ttf", 50)
+    font1_small = pygame.font.Font("neuropolitical.ttf", 30)
     font2 = pygame.font.Font("Bloodthirsty.ttf", 50)
 
     texte_reponse1 = pygame.font.Font.render(font, "Oui", True, (0,0,0))
     texte_reponse2 = pygame.font.Font.render(font, "Non", True, (0,0,0))
 
     #if victoire():
-    var = False
-    if var:
-        texte_question1 = pygame.font.Font.render(font1, "Souhaitez-vous passer au niveau suivant ?", True, (0,0,0))
-        fenetre.blit(texte_question1, surface_victoire)
-        fenetre.blit(texte_reponse1, surface_reponse1)
-        fenetre.blit(texte_reponse2, surface_reponse2)
-
     var = True
+    if var:
+        texte_victoire = pygame.font.Font.render( font1_big, "VICTOIRE", True, (0,0,0))
+        texte_question1 = pygame.font.Font.render(font1_small, "Souhaitez-vous passer au niveau suivant ?", True, (0,0,0))
+        fenetre.blit(texte_victoire, (475, 200))
+        fenetre.blit(texte_question1, (220, 270))
+        fenetre.blit(texte_reponse1, (350, 370))
+        fenetre.blit(texte_reponse2, (845, 370))
+
+    var = False
     #if victoire() == False:
     if var:
+        texte_victoire = pygame.font.Font.render( font2, "DEFAITE", True, (0,0,0))
         texte_question2 = pygame.font.Font.render(font2, "Souhaitez-vous recommencer le niveau ?", True, (0,0,0))
-        fenetre.blit(texte_question2, surface_defaite)
-        fenetre.blit(texte_reponse1, surface_reponse1)
+        fenetre.blit(texte_question2, )
+        fenetre.blit(texte_question2, )
+        fenetre.blit(texte_reponse1, )
         fenetre.blit(texte_reponse2, surface_reponse2)
 
 

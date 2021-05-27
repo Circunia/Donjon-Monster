@@ -17,89 +17,6 @@ class Sort:
 #perso = joueur
 #adv = adversaire
 
-    def action_sort(self, perso, adv):
-        """ self, Personnage, Personnage -> void
-             Préconditions : self.pv != 0
-             Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
-
-        if perso.cat == Joueur:
-            if self.type == "attaque" :
-                attaque_action(self, adv)
-            elif self.type == defense:
-                if self.type == "defense":
-                    defense_action(self, adv)
-            #elif perso.cat == Boss:
-            elif self.type == "Augmentation":
-                augmentation_action(self, perso)
-
-            else:
-                soin_action(self, perso)
-
-        #perte de PA
-        perso.pa = perso.pa - self.cout
-
-    def est_zone(self, perso, liste_monstres):
-        """ Personnage, list[Personnage], Sort -> list
-            Préconditions : None
-            Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort et renvoit False si la liste de monstres est vide sinon la liste de coordonnées des monstres dans la zone. """
-
-        #position du joueur
-        x = perso.pstn[0]
-        y = perso.pstn[1]
-
-        #--------------Coordonnées des sorts--------------#
-
-        # var = [(face),(left), (right), (back)]
-        zone = {"Explosion" : [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180)],
-        "Fleches Empoisonnees" : [[(x, y-180), (x-45, y-180), (x+45, y-180)], [(x, y+180), (x-45, y+180), (x+45, y+180)]],
-        "Coup de couteau" : [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]],
-        "Augmentation" : [(x,y)],
-        "Immobilisation" : ([(x-45,y),(x-90, y), (x-135, y), (x-180,y)],[(x+45,y),(x+90, y), (x+135, y), (x+180,y)]),
-        "Eclair" : [[(x,y-180)], [(x-180, y)], [(x+180, y)], [(x,y+180)]],
-        "Benediction" : [(x,y)],
-        #haut, droite, gauche, bas
-        "Illumination" : [ [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180), (x,y-45), (x-45, y-45), (x+45, y-45)],
-        [(x+90,y+45), (x+135,y+45), (x+180, y+45),(x+90, y), (x+135, y), (x+180, y), (x+90,y-45), (x+135, y-45), (x+180, y-45),(x+45,y), (x+45,y-45), (x+45, y+45)],
-        [(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45), (x-45, y), (x-45, y+45), (x-45, y-45)],
-        [(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45)] ]}
-
-        zone_sort = zone[self.nom]
-
-        if perso.cat == "Joueur":
-            liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
-            for i in range(len(liste_monstres)):
-                if liste_monstres[i].pstn in zone_sort:
-                    liste_monstre_in_zone.append(liste_monstres[i])
-                    if liste_monstre_in_zone == []:
-                        return False
-                    else:
-                        return liste_monstre_in_zone and zone_sort
-
- # Je n'arrivais pas à modéliser cette partie donc Manon m'a aidé et a fait ce code.
- # zone_s = zone[sort]
- #        zone_c = []
- #        coordonnees = #appel a une fonction qui détermine sur quel côté le sort va agir
- #        for i in range(4):
- #            if coordonnees in zone_s[i]:
- #                zone_c = zone_s[i]
- #
- #        zone_sort = []
- #        for case in zone_c :
- #            if case[0] <= 635 and case[0] >= 50 and case[1] <= 635 and case[1] >= 50:
- #                zone_sort.append(case)
- #        return zone_sort
- #
- #    def monstres_in_zone (self, perso, liste_monstres):
- #        zone_sort = self.est_zone(perso)
- #        if perso.cat == "Joueur":
- #            liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
- #            for i in range(len(liste_monstres)):
- #                if liste_monstres[i].pstn in zone_sort:
- #                    liste_monstre_in_zone.append(liste_monstres[i])
- #            return liste_monstre_in_zone
-
-
-
 #-----------Actions des sorts------------#
 
     #-----Attaque------#
@@ -123,6 +40,8 @@ class Sort:
             Préconditions : perso.pv != 0
             Rôle : Supprime les pd de l'adversaire."""
 
+        nb = 0
+        
         if self.nom == "Eclair":
             nb = 2
         if self.nom == "Immobilisation":
@@ -140,6 +59,89 @@ class Sort:
             perso.pv = perso.pv + perso.pv_t*0.2
         if self.nom == "Illumination":
             perso.pv = perso.pv + self.degats #degats = pv rendu
+
+
+    def action_sort(self, perso):
+        """ self, Personnage, Personnage -> void
+             Préconditions : self.pv != 0
+             Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
+
+        if perso.cat == Joueur:
+            liste_monstre_in_zone = monstres_in_zone(perso, liste_m)
+            if self.type == "attaque" :
+                for monstre in liste_monstre_in_zone :
+                    attaque_action(self, monstre)
+
+            elif self.type == "defense":
+                    for monstre in liste_monstre_in_zone :
+                        defense_action(self, monstre)
+            else:
+                for monstre in liste_monstre_in_zone :
+                    soin_action(self, monstre)
+        else:
+            zone_sort = self.est_zone(perso)
+            if self.type == "attaque" :
+                attaque_action(self, Joueur)
+
+            elif self.type == "defense":
+                if self.nom == "Augmmentation" :
+                    augmentation_action(self, Joueur)
+                else :
+                    defense_action(self, Joueur)
+            else:
+                soin_action(self, Joueur)
+
+        perso.pa = perso.pa - self.cout #perte de pa
+
+    def est_zone(self, perso, liste_monstres):
+        """ Personnage, list[Personnage], Sort -> list
+            Préconditions : None
+            Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort et renvoit False si la liste de monstres est vide sinon la liste de coordonnées des monstres dans la zone. """
+
+        #position du joueur
+        x = perso.pstn[0]
+        y = perso.pstn[1]
+
+        #--------------Coordonnées des sorts--------------#
+
+        # var = [(face),(left), (right), (back)]
+        zone = {"Explosion" : [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180)],
+        "Fleches Empoisonnees" : [[(x, y-180), (x-45, y-180), (x+45, y-180)], [(x, y+180), (x-45, y+180), (x+45, y+180)]],
+        "Coup de couteau" : [[(x, y-45)], [(x-45,y)], [(x, y+45)],[(x+45,y)]],
+        "Augmentation" : [(x,y)],
+        "Immobilisation" : ([(x-45,y),(x-90, y), (x-135, y), (x-180,y)],[(x+45,y),(x+90, y), (x+135, y), (x+180,y)]),
+        "Eclair" : [[(x,y-180)], [(x-180, y)], [(x+180, y)], [(x,y+180)]],
+        "Bénédiction" : [(x,y)],
+        #haut, droite, gauche, bas
+        "Illumination" : [ [(x, y-90), (x, y-135), (x, y-180), (x-45,y-90), (x-45,y-135), (x-45, y-180), (x+45,y-90), (x+45, y-135), (x+45, y-180), (x,y-45), (x-45, y-45), (x+45, y-45)],
+        [(x+90,y+45), (x+135,y+45), (x+180, y+45),(x+90, y), (x+135, y), (x+180, y), (x+90,y-45), (x+135, y-45), (x+180, y-45),(x+45,y), (x+45,y-45), (x+45, y+45)],
+        [(x-90, y), (x-135, y), (x-180, y), (x-90,y-45), (x-135,y-45), (x-180, y-45), (x-90,y+45), (x-135, y+45), (x-180, y+45), (x-45, y), (x-45, y+45), (x-45, y-45)],
+        [(x, y+90), (x, y+135), (x, y+180), (x+45,y+90), (x+45,y+135), (x+45, y+180), (x-45,y+90), (x-45, y+135), (x-45, y+180), (x,y+45), (x+45, y+45), (x-45, y+45)] ]}
+
+        zone_s = zone[self.nom]
+        zone_c = []
+        coordonnees = #appel a une fonction qui détermine sur quel côté le sort va agir
+        for i in range(4):
+            if coordonnees in zone_s[i]:
+                zone_c = zone_s[i]
+
+        zone_sort = []
+        for case in zone_c :
+            if case[0] <= 635 and case[0] >= 50 and case[1] <= 635 and case[1] >= 50:
+                zone_sort.append(case)
+        return zone_sort
+
+    def monstres_in_zone (self, perso, liste_monstres):
+        zone_sort = self.est_zone(perso)
+        if perso.cat == "Joueur":
+            liste_monstre_in_zone = [] #liste de monstres dans la zone d'action du sort
+            for i in range(len(liste_monstres)):
+                if liste_monstres[i].pstn in zone_sort:
+                    liste_monstre_in_zone.append(liste_monstres[i])
+            return liste_monstre_in_zone
+
+
+
 
 
 #-----------Création des sorts---------#
