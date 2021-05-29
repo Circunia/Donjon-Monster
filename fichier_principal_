@@ -904,6 +904,22 @@ def tour_monstres (liste_m, liste_o):
             affiche(Joueur,liste_m,liste_o)
             pygame.display.flip()
             time.sleep(1)
+            
+def victoire(joueur, liste_adversaire):
+    """ Personnage, list -> bool
+        Préconditions : None
+        Rôle : Rôle : Si le joueur a des pv (est en vie, (pv > 0)) et que tout les monstres n'ont plus de pv (sont morts, (pv <= 0)) retourner TRUE, si tout les monstres ne sont pas morts retourne "continue", sinon retourner FALSE. """
+
+    nb_mort = 0
+    if est_mort(joueur): # défaite
+        return False
+    else: # victoire
+        for adversaire in liste_adversaire:
+            if est_mort(adversaire):
+                nb_mort += 1
+        if nb_mort == len(liste_adversaire):
+            return True
+        return "continue" # le joueur peut continuer de jouer mais tout les monstres ne sont pas morts.
 
 def jeu (joueur, liste_m, liste_o):
     continuer = True
@@ -921,7 +937,7 @@ def jeu (joueur, liste_m, liste_o):
                 n = n + 1
         if n == len(liste_m) :
             continuer = False
-    #appel fonction victoire
+    victoire(joueur, liste_m)
 
 def affichage_gest_event(Joueur, liste_adversaire): #affichage vitcoire/defaite
     """ Personnage, list[Personnage] ->  void
