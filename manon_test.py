@@ -1,4 +1,4 @@
-#----------Debut de la classe Sort----------#
+##----------Debut de la classe Sort----------#
 
 class Sort:
 
@@ -29,7 +29,7 @@ class Sort:
 
             elif self.type == "defense":
                 liste_monstre_in_zone = self.monstres_in_zone(perso, liste_m)
-                for monstre in liste_monstre_in_zone :
+                for monstre in liste_monstre_in_zone : 
                     self.defense_action(monstre)
             else:
                 self.soin_action(perso)
@@ -904,22 +904,6 @@ def tour_monstres (liste_m, liste_o):
             affiche(Joueur,liste_m,liste_o)
             pygame.display.flip()
             time.sleep(1)
-            
-def victoire(joueur, liste_adversaire):
-    """ Personnage, list -> bool
-        Préconditions : None
-        Rôle : Rôle : Si le joueur a des pv (est en vie, (pv > 0)) et que tout les monstres n'ont plus de pv (sont morts, (pv <= 0)) retourner TRUE, si tout les monstres ne sont pas morts retourne "continue", sinon retourner FALSE. """
-
-    nb_mort = 0
-    if est_mort(joueur): # défaite
-        return False
-    else: # victoire
-        for adversaire in liste_adversaire:
-            if est_mort(adversaire):
-                nb_mort += 1
-        if nb_mort == len(liste_adversaire):
-            return True
-        return "continue" # le joueur peut continuer de jouer mais tout les monstres ne sont pas morts.
 
 def jeu (joueur, liste_m, liste_o):
     continuer = True
@@ -937,73 +921,7 @@ def jeu (joueur, liste_m, liste_o):
                 n = n + 1
         if n == len(liste_m) :
             continuer = False
-    victoire(joueur, liste_m)
-
-def affichage_gest_event(Joueur, liste_adversaire): #affichage vitcoire/defaite
-    """ Personnage, list[Personnage] ->  void
-        Précondition : None
-        Rôle : Affiche un pop qui affiche "défaite" ou "victoire" et pose une question au joueur qui peut répondre par "oui" ou "non". """
-
-    #police d'ecriture
-    font = pygame.font.SysFont("lemon_friday.ttf", 50)
-    font1_big = pygame.font.Font("neuropolitical.ttf", 50)
-    font1_small = pygame.font.Font("neuropolitical.ttf", 30)
-    font2_big = pygame.font.Font("Bloodthirsty.ttf", 70)
-    font2_small = pygame.font.Font("Bloodthirsty.ttf", 45)
-
-    #texte commun aux deux pop-up
-    texte_reponse1 = pygame.font.Font.render(font, "Oui", True, (0,0,0))
-    texte_reponse2 = pygame.font.Font.render(font, "Non", True, (0,0,0))
-
-    # var = False
-    # if var:
-    if victoire():
-        pygame.draw.rect(fenetre, (145, 123, 198), (140, 185, 1000, 280)) # pop up niveau suivant (victoire)
-        pygame.draw.rect(fenetre, (130, 80, 100), (275, 365, 200, 50)) # rectangle réponse 1
-        pygame.draw.rect(fenetre, (130, 80, 100), (770, 365, 200, 50)) # rectangle réponse 2
-        texte_victoire = pygame.font.Font.render(font1_big, "VICTOIRE", True, (0,0,0))
-        texte_question1 = pygame.font.Font.render(font1_small, "Souhaitez-vous passer au niveau suivant ?", True, (0,0,0))
-        #affichage de tout les textes
-        fenetre.blit(texte_victoire, (475, 200))
-        fenetre.blit(texte_question1, (220, 275))
-        fenetre.blit(texte_reponse1, (340, 375))
-        fenetre.blit(texte_reponse2, (835, 375))
-
-    # var = True
-    # if var:
-    if victoire() == False:
-        pygame.draw.rect(fenetre, (203, 67, 67), (140, 185, 1000, 280)) # pop up dead (défaite)
-        pygame.draw.rect(fenetre, (130, 80, 100), (275, 365, 200, 50)) # rectangle réponse 1
-        pygame.draw.rect(fenetre, (130, 80, 100), (770, 365, 200, 50)) # rectangle réponse 2
-        texte_defaite = pygame.font.Font.render(font2_big, "DEFAITE", True, (0,0,0))
-        texte_question2 = pygame.font.Font.render(font2_small, "Souhaitez-vous recommencer le niveau ?", True, (0,0,0))
-        #affichage de tout les textes
-        fenetre.blit(texte_defaite, (515, 200))
-        fenetre.blit(texte_question2, (230, 285))
-        fenetre.blit(texte_reponse1, (340, 375))
-        fenetre.blit(texte_reponse2, (835, 375))
-
-        #contours des rectangles
-    pygame.draw.rect(fenetre, (0, 0, 0), (140, 185, 1000, 280), 2) # cadre vitcoire/défaite
-    pygame.draw.rect(fenetre, (0, 0, 0), (275, 365, 200, 50), 2) # cadre réponse 1
-    pygame.draw.rect(fenetre, (0, 0, 0), (770, 365, 200, 50), 2) # cadre réponse 2
-
-    # for event in pygame.event.get():
-    #     pygame.event.wait()
-
-        #réponse = oui
-        if event.type==MOUSEBUTTONDOWN :
-            (x, y) = event.pos
-            if x <= 475 and y <= 415 :
-                if x >=275  and y >=365 :
-                    return "Oui"
-
-        #réponse = non
-        if event.type==MOUSEBUTTONDOWN :
-            (x, y) = event.pos
-            if x <= 970 and y <= 415 :
-                if x >= 770 and y >=365 :
-                    return "Non"
+    #appel fonction victoire
 
 pygame.init()
 largeur = 1300
@@ -1018,7 +936,6 @@ try :
 
     affiche(Joueur,liste_m,liste_o)
     tour_monstres(liste_m, liste_o)
-    affichage_gest_event()
     pygame.display.flip()
 
 
@@ -1038,4 +955,4 @@ try :
 #         fenetre.blit(joueur,(Joueur.pstn))
 
 finally :
-    pygame.quit()
+    pygame.quit() 
