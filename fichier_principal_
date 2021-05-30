@@ -694,16 +694,41 @@ class Personnage :
                         self.sorts["soin"][0].action_sort(self)
 
 Joueur = Personnage("You", "joueur.png", "Joueur", 1200, 1200, 7, 4, {"attaque" : [explosion, fleches_empoisonnees], "soin" : [benediction], "defense" : [immobilisation]}, (140, 320))
+
+#Niveau 1
+liste_o1 = [(500,95), (185,500), (455,545)]
+
+monstre1_1_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (365,95))
+monstre1_2_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (365,365))
+monstre1_3_niv1 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (365,590))
+monstre2_1_niv1 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 2, 3, {"attaque" : [coup_de_couteau1], "soin": [illumination]}, (545,230))
+monstre2_2_niv1 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 2, 3, {"attaque" : [coup_de_couteau1], "soin": [illumination]}, (545,410))
+
+liste_m1 = [monstre1_1_niv1, monstre1_2_niv1, monstre1_3_niv1,monstre2_1_niv1 ,monstre2_1_niv1]
+
+#Niveau 2
+liste_o2 = [(185,185), (455,545), (500,545)]
+
+monstre1_1_niv2 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (275,50))
+monstre1_2_niv2 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (275,635))
+monstre2_1_niv2 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 3, 2, {"attaque" : [coup_de_couteau1], "soin": [illumination]}, (455,275))
+monstre2_2_niv2 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 3, 2, {"attaque" : [coup_de_couteau1], "soin": [illumination]}, (455,365))
+monstre3_1_niv2 = Personnage("Renardo", "monstre3.png", "Monstre3", 650, 650, 5, 2, {"attaque" : [coup_de_couteau2, fleches_empoisonnees], "soin": [illumination1]}, (455,365))
+
+liste_m2 = [monstre1_1_niv2, monstre1_2_niv2, monstre2_1_niv2, monstre2_2_niv2, monstre3_1_niv2]
+
+#Niveau 3
+liste_o3 = [(545,95), (230,545),(320,275),(275,545)]
+
 monstre1_1_niv3 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (455,95))
 monstre1_2_niv3 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (455,590))
-monstre1_3_niv3 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (230,320))
+monstre1_3_niv3 = Personnage("Lezardo", "monstre1.png", "Monstre1", 300, 300, 2, 1, {"attaque" : [coup_de_couteau]}, (320,320))
 monstre2_1_niv3 = Personnage("Croco", "monstre2.png", "Monstre2", 500, 500, 3, 3, {"attaque" : [coup_de_couteau], "soin": [illumination]}, (455,320))
 monstre3_1_niv3 = Personnage("Renardo", "monstre3.png", "Monstre3", 650, 650, 5, 2, {"attaque" : [coup_de_couteau2, fleches_empoisonnees], "soin": [illumination1]}, (500,140))
 monstre3_2_niv3 = Personnage("Renardo", "monstre3.png", "Monstre3", 650, 650, 5, 2, {"attaque" : [coup_de_couteau2, fleches_empoisonnees], "soin": [illumination1]}, (500,545))
 Boss_niv3 = Personnage("Skeleto", "Boss.png", "Boss", 900, 900, 5, 2, {"attaque" : [fleches_empoisonnees], "soin" : [illumination2], "defense" : [eclair, augmentation]}, (590,320))
-liste_o = [(545,95), (230,545),(320,275),(275,545)]
-liste_m = [monstre1_1_niv3, monstre1_2_niv3, monstre1_3_niv3, monstre2_1_niv3, monstre3_1_niv3, monstre3_2_niv3, Boss_niv3]
 
+liste_m3 = [monstre1_1_niv3, monstre1_2_niv3, monstre1_3_niv3, monstre2_1_niv3, monstre3_1_niv3, monstre3_2_niv3, Boss_niv3]
 import time
 import pygame
 from pygame.locals import *
@@ -1010,14 +1035,10 @@ largeur = 1300
 hauteur = 700
 try :
 
-    fenetre = pygame.display.set_mode((largeur, hauteur))
+    fenetre = pygame.display.set_mode((largeur, hauteur)
 
-    liste_o = [(545,95), (230,545),(320,275),(275,545)]
-
-    liste_m = [monstre1_1_niv3, monstre1_2_niv3, monstre1_3_niv3, monstre2_1_niv3, monstre3_1_niv3, monstre3_2_niv3, Boss_niv3]
-
-    affiche(Joueur,liste_m,liste_o)
-    tour_monstres(liste_m, liste_o)
+    affiche(Joueur,liste_m3,liste_o3)
+    tour_monstres(liste_m3, liste_o3)
     affichage_gest_event()
     pygame.display.flip()
 
@@ -1029,7 +1050,7 @@ try :
                 continuer = False
             elif event.type == MOUSEBUTTONDOWN :
                 (x, y) = event.pos
-                #jeu(Joueur, liste_m, liste_o)
+                #jeu(Joueur, liste_m3, liste_o3)
 #             if event.type==MOUSEBUTTONDOWN :
 #                  (x,y)=event.pos
 #                  l=y//45
