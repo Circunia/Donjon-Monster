@@ -22,24 +22,32 @@ Schéma annoté de l’interface graphique : /
 Classe Personnage: 
 Attributs : 
 - nom (str), pseudonyme du personnage 
-- image1 (png), associe une image au personnage 
-- image2 (png), associe une image au personnage dans laquelle il se fait attaquer 
-- categorie (str), définit le statut du personnage (joueur, monstre1, monstre2, monstre3, boss) 
+- im1 (png), associe une image au personnage 
+- cat (str), définit le statut du personnage (joueur, monstre1, monstre2, monstre3, boss) 
 - pv (int), nombre de points de vie 
+- pv_t (int), nombre de pv total en début de jeu
 - pa (int), les points d’action servent à utiliser les sorts
 - pd (int), le nombre de points de déplacement est égal au nombre de cases que peut franchir le personnage à chaque tour 
 - sorts (dict), les clés représentent les types de sorts (attaque, soin, défense) et les valeurs représentent les sorts stockés dans des listes 
-- position(tuple), coordonnées (x,y) du personnage 
+- pstn(tuple), coordonnées (x,y) du personnage 
 Méthode : 
 constructeur 
-est_mort (personnage): 
-Personnage -> bool 
-Retourne True si le personnage n’a plus de pv, False sinon. 
-deplacer(personnage) : 
-personnage(Personnage) -> void 
+est_mort (self) :
+self(Personnage) -> bool
+Préconditions :
+Rôle : Retourne True si le personnage est mort (pv <= 0), False sinon.
+
+zone_possible(self, list_m, list_o):
+self(Personnage), list, list -> list
+Préconditions : le personnage pris en paramètre doit être en vie.
+Rôle : Retourne la liste des cases sur lesquelles peut se déplacer le personnage
+
+deplacer(self, liste_m, liste_o):
+self(Personnage), list, list -> void
+Préconditions : le personnage pris en paramètre doit être en vie.
+Rôle : Change la position du personnage en fonction de ses pd et de la requête de l'utilisateur si le personnage est le joueur. 
 - on teste le statut du personnage : 
-→ joueur : 
-illumine les cases sur lesquelles le joueur peut se déplacer en fonction de ses pd et de sa position initiale, 
+→ joueur :  
 Demande à l’utilisateur de cliquer sur la case qu’il veut atteindre 
 Modifie la position du joueur en fonction de la requête de l’utilisateur 
 Change l’attribut position en fonction de la nouvelle position 
@@ -47,12 +55,14 @@ Change l’attribut position en fonction de la nouvelle position
 Modifie la position du monstre en fonction de ses pd (le monstre ne doit pas se déplacer de la même façon à chaque tour mais doit toujours avoir comme stratégie de viser le joueur) 
 Deux personnages ne peuvent se trouver sur la même case et un personnage ne peut se déplacer sur une case contenant un obstacle. 
 Change l’attribut position en fonction de la nouvelle position 
-action(personnage) : 
-personnage → void 
+
+action(self, x, y) :
+self(Personnage), int,  int -> void
+Préconditions :
+Rôle : fait agir les sorts en fonction du type de personnage"""
 - on teste le statut du personnage : 
 → joueur :
 - le joueur choisit un sort 
-- les cases à portée de tir s’illuminent 
 - il peut choisir un adversaire 
 - appel à la classe sort pour actionner le sort sélectionné 
 → monstre1 
@@ -92,9 +102,7 @@ liste_monstres3 : list(Personnage) : liste des monstres du niveau 3
 Joueur(Personnage): Personnage du Joueur 
 liste_sort : list(Sort) liste des sorts possibles 
 Graphe1 : Grille de jeu du niveau 1, 2 et 3
-Barre1 : Barre de tâche (graphique) du niveau 1 
-Barre2 : Barre de tâche (graphique) du niveau 2 
-Barre3 : Barre de tâche (graphique) du niveau 3 
+Barre : Barre de tâche (graphique)
 Fenêtre : fenêtre de l’interface Graphique 
 
 Interface Graphique : 
@@ -106,10 +114,6 @@ Modifier graphiquement la barre de tâches entre chaque tour pour afficher les c
 description_sort(liste_sorts): 
 liste_sorts(list) -> void 
 Rôle : Créer une fenêtre avec la description de chaque sort si l’utilisateur clique sur le bouton destiné à l’afficher. 
-
-affichage_sort(sort, perso):
-sort (Sort), adversaire(Personnage) -> void 
-Rend visible les dégâts à l’aide d’une animation : change l’image du monstre touché par une autre où il est attaqué, cette fonction est utilisée lorsque le sort en paramètre n’est pas un sort de soin, lorsque le sort a des effets directs sur l’adversaire du personnage en paramètre. 
 
 
 
