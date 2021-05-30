@@ -71,6 +71,7 @@ Rôle : fait agir les sorts en fonction du type de personnage"""
 -> Boss 
 (les monstres auront des stratégies d’action différentes selon leur catégorie, par exemple un monstre de catégorie 2 pourra se voir attribuer un sort d’attaque et un sort de soin, et devra utiliser son sort de soin si son nombre de pv est inférieur à 50 sinon il attaquera) 
 
+
     Classe Sort : 
 Attributs : 
 - nom (str) 
@@ -80,20 +81,12 @@ Attributs :
 - description (str) : description du sort 
 
 Fonctions/Méthodes:
-        constructeur
+- constructeur
+- action_sort(self, perso) : lance le sort demandé
+- est_zone(self, perso, liste_monstres) : vérifie si il y a des adversaires dans la zone
+- monstres_in_zone(self, perso, liste_monstres) : renvoie une liste contenant les monstres présent dans la zone d'action du sort
+- attaque / defense / soin : crée les différentes actions des sorts. 
 
-        action_sort(self,perso , adv):
-        """ self, Personnage, Personnage -> void
-                     Préconditions : self.pv != 0
-                     Rôle : En fonction du type du sort, lance le sort sur l'adversaire ou le joueur correspondant. """
-
-        
-        def est_zone(self, perso, liste_monstres):
-        """ Personnage, list[Personnage], Sort -> list
-            Préconditions : None
-            Rôle : Détermine si un ou plusieurs monstres se trouve dans la zone d'action du sort et renvoit False si la liste de monstres est vide sinon la liste de               coordonnées des monstres dans la zone. """
-            
-        attaque / augmentation / defense / soin 
 
 Variables Globales : 
 liste_monstres1 : list(Personnage) : liste des monstres du niveau 1 
@@ -115,24 +108,16 @@ description_sort(liste_sorts):
 liste_sorts(list) -> void 
 Rôle : Créer une fenêtre avec la description de chaque sort si l’utilisateur clique sur le bouton destiné à l’afficher. 
 
-
-
 Gestionnaire d'evenements: 
+- ordre_de_passage(joueur, liste_m)
+- tour_par_tour(joueur) : structure du jeu qui actualise tout les paramètres à chaque tour
+- recompense(joueur) : (option) propose au joueur de choisir entre deux récompenses avant de passer au niveau suivant
+- victoire(joueur, liste_m) : vérifie si le joueur à gagner ou non 
+- tour_personnage(joueur, liste-m, liste_o) : fait jouer les personnages
 
-    def tour_par_tour(joueur):
-    """ Personnage -> void
-        Préconditions : None
-        Rôle : Appel chaque fonction du gestionnaire des tâches pour mettre à jour les évenements et fait jouer le personnage suivant. """
-        
-    def victoire(joueur, liste_adversaire):
-    """ Personnage, list -> bool
-        Préconditions : None
-        Rôle : Si le joueur a des pv (est en vie, (pv > 0)) et que tout les monstres n'ont plus de pv (sont morts, (pv <= 0)) retourner TRUE, si tout les monstres ne         sont pas morts retourne "continue", sinon retourner FALSE. """
-
-recompense(): 
-Aucun paramètre 
-Rôle : Le joueur choisit entre deux cadeaux avant de passer au niveau suivant. Modification de la fenêtre graphique, le joueur clique sur la récompense souhaitée. Modification des attributs du joueur en conséquence. 
-
+Affichage du gestionnaire d'évenements :
+- affichage_victoire_defaite(joueur, liste_m) : affiche un pop en fonction de la victoire ou non du joueur
+- affichage_accueil() : affichage de l'accueil du jeu
 
 Grande étapes du programme (partie principale) : 
 - Initialisation des variables dans les classes 
@@ -143,6 +128,7 @@ Grande étapes du programme (partie principale) :
 
 Fonctions optionnelles : 
 - Choix de l’image pour l’utilisateur 
+- Récompense en fin de niveau
 
 Répartition du travail : 
 - Manon : Classe Personnage 
